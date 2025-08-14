@@ -39,14 +39,14 @@
   
   #gameContainer {
     width: 100%;
-    max-width: 1200px;
-    padding: 15px;
+    max-width: 1100px;
+    padding: 12px;
   }
   
   #title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
     font-weight: 900;
     letter-spacing: 2px;
@@ -58,7 +58,7 @@
     gap: 10px;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     justify-content: center;
   }
   
@@ -196,7 +196,7 @@
   #gameCanvas {
     display: block;
     width: 100%;
-    max-width: 1024px;
+    max-width: 922px;
     margin: 0 auto;
     border: 3px solid var(--primary-blue);
     border-radius: 15px;
@@ -209,9 +209,9 @@
   
   .controls {
     text-align: center;
-    margin-top: 12px;
+    margin-top: 10px;
     color: var(--text-white);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
   }
@@ -261,19 +261,21 @@
     transform: translate(-50%, -50%);
     background: linear-gradient(135deg, #1a1a2e, #16213e);
     color: var(--text-white);
-    padding: 30px;
+    padding: 20px 25px;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.9);
     z-index: 4000;
     max-width: 600px;
     width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
     border: 3px solid var(--primary-blue);
     animation: fadeIn 0.5s ease;
   }
   
   .tutorial-title {
-    font-size: 2.2rem;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
     text-align: center;
     color: var(--accent-cyan);
     text-shadow: 0 0 15px rgba(0,255,255,0.5);
@@ -282,29 +284,29 @@
   }
   
   .tutorial-section {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     background: rgba(0,0,0,0.3);
-    padding: 15px;
-    border-radius: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
     border-left: 4px solid var(--primary-blue);
   }
   
   .tutorial-section h3 {
     color: var(--accent-yellow);
-    font-size: 1.3rem;
-    margin-bottom: 10px;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
     font-weight: 700;
   }
   
   .tutorial-section p, .tutorial-section li {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.4;
     color: var(--text-gray);
   }
   
   .tutorial-section ul {
-    margin-left: 20px;
-    margin-top: 8px;
+    margin-left: 18px;
+    margin-top: 5px;
   }
   
   .good-items {
@@ -319,13 +321,13 @@
   
   .start-button {
     display: block;
-    margin: 20px auto 0;
-    padding: 15px 40px;
+    margin: 15px auto 0;
+    padding: 12px 35px;
     background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
     color: var(--text-white);
     border: none;
-    border-radius: 30px;
-    font-size: 1.3rem;
+    border-radius: 25px;
+    font-size: 1.15rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -528,8 +530,11 @@
     .bar-label { min-width: 45px; font-size: 0.85rem; }
     .controls { font-size: 0.9rem; }
     .quiz-modal { padding: 20px; }
-    .tutorial-modal { padding: 20px; }
-    .tutorial-title { font-size: 1.8rem; }
+    .tutorial-modal { padding: 15px; }
+    .tutorial-title { font-size: 1.5rem; }
+    .tutorial-section { padding: 8px 10px; margin-bottom: 10px; }
+    .tutorial-section h3 { font-size: 1rem; }
+    .tutorial-section p, .tutorial-section li { font-size: 0.85rem; }
   }
 </style>
 </head>
@@ -579,7 +584,7 @@
         </div>
       </div>
     </div>
-    <canvas id="gameCanvas" width="1024" height="576"></canvas>
+    <canvas id="gameCanvas" width="922" height="518"></canvas>
     <div class="controls">
       Use <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> to move • Click or touch to control
     </div>
@@ -591,6 +596,9 @@
   <!-- Tutorial Modal -->
   <div class="tutorial-modal" id="tutorialModal">
     <h2 class="tutorial-title">BERLIN AIRLIFT 1948-1949</h2>
+    <p style="text-align: center; color: var(--accent-cyan); font-size: 0.9rem; margin-top: -10px; margin-bottom: 15px;">
+      Designed by <strong>Godwin Tan</strong>
+    </p>
     
     <div class="tutorial-section">
       <h3>📖 Historical Context</h3>
@@ -644,7 +652,7 @@
 // Enhanced Berlin Airlift Game with 11-month timeline
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const W = canvas.width, H = canvas.height;
+const W = 922, H = 518;
 
 // Game state
 const game = {
