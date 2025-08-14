@@ -1,0 +1,2080 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Berlin Airlift: Operation Vittles - Educational Game</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+  
+  :root{
+    --primary-blue:#0066CC;
+    --primary-green:#00AA44;
+    --primary-red:#DD3333;
+    --primary-yellow:#FFCC00;
+    --dark-bg:#1a1a2e;
+    --panel-bg:rgba(16,16,42,0.95);
+    --text-white:#FFFFFF;
+    --text-gray:#E0E0E0;
+    --accent-cyan:#00FFFF;
+    --accent-orange:#FF6B35;
+  }
+  
+  * { margin:0; padding:0; box-sizing:border-box; }
+  
+  html,body { 
+    height:100%; 
+    overflow:hidden; 
+    font-family: 'Calibri', 'Roboto', 'Segoe UI', Arial, sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(180deg, #4A90E2 0%, #357ABD 50%, #2E5984 70%, #1a1a2e 70%);
+    color: var(--text-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #gameContainer {
+    width: 100%;
+    max-width: 1200px;
+    padding: 15px;
+  }
+  
+  #title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--text-white);
+  }
+  
+  #hud {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    justify-content: center;
+  }
+  
+  .panel {
+    background: var(--panel-bg);
+    border: 2px solid var(--primary-blue);
+    border-radius: 10px;
+    padding: 8px 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+  }
+  
+  .panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,102,204,0.4);
+    border-color: var(--accent-cyan);
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+    font-weight: 500;
+  }
+  
+  .stat-value {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 10px rgba(0,255,255,0.5);
+  }
+  
+  .bar-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .bar-label {
+    font-size: 0.95rem;
+    color: var(--text-white);
+    font-weight: 600;
+    min-width: 55px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  .bar {
+    width: 100px;
+    height: 14px;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  .bar-fill {
+    height: 100%;
+    transition: width 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 15px currentColor;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
+  .bar-icon {
+    font-size: 1.3rem;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+  }
+  
+  /* Month Progress Bar */
+  .month-progress {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .month-label {
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    text-align: center;
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-shadow: 0 0 5px rgba(0,255,255,0.5);
+  }
+  
+  .month-bar {
+    width: 100%;
+    height: 20px;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid var(--accent-cyan);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .month-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00BFFF, #00FFFF, #40E0D0);
+    transition: width 0.1s linear;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: #FFFFFF;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8);
+    letter-spacing: 0.5px;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
+  }
+  
+  #gameCanvas {
+    display: block;
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    border: 3px solid var(--primary-blue);
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7), 0 0 20px rgba(0,102,204,0.5);
+    cursor: grab;
+    background: transparent;
+  }
+  
+  #gameCanvas:active { cursor: grabbing; }
+  
+  .controls {
+    text-align: center;
+    margin-top: 12px;
+    color: var(--text-white);
+    font-size: 1rem;
+    font-weight: 500;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+  }
+  
+  kbd {
+    background: var(--primary-blue);
+    color: var(--text-white);
+    border: 2px solid var(--accent-cyan);
+    border-radius: 5px;
+    padding: 4px 10px;
+    margin: 0 3px;
+    font-weight: 700;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    font-size: 0.95rem;
+  }
+  
+  .soundToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--panel-bg);
+    border: 2px solid var(--primary-blue);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+  
+  .soundToggle:hover {
+    transform: scale(1.1);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0,255,255,0.5);
+  }
+  
+  /* Tutorial Modal */
+  .tutorial-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: var(--text-white);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+    z-index: 4000;
+    max-width: 600px;
+    width: 90%;
+    border: 3px solid var(--primary-blue);
+    animation: fadeIn 0.5s ease;
+  }
+  
+  .tutorial-title {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 15px rgba(0,255,255,0.5);
+    font-weight: 900;
+    letter-spacing: 1px;
+  }
+  
+  .tutorial-section {
+    margin-bottom: 20px;
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-blue);
+  }
+  
+  .tutorial-section h3 {
+    color: var(--accent-yellow);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  
+  .tutorial-section p, .tutorial-section li {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-gray);
+  }
+  
+  .tutorial-section ul {
+    margin-left: 20px;
+    margin-top: 8px;
+  }
+  
+  .good-items {
+    color: var(--primary-green) !important;
+    font-weight: 600;
+  }
+  
+  .bad-items {
+    color: var(--primary-red) !important;
+    font-weight: 600;
+  }
+  
+  .start-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 15px 40px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+    color: var(--text-white);
+    border: none;
+    border-radius: 30px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,102,204,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .start-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,255,255,0.6);
+    background: linear-gradient(135deg, var(--accent-cyan), var(--primary-blue));
+  }
+  
+  /* Quiz Modal */
+  .quiz-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #16213e, #1a1a2e);
+    color: var(--text-white);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+    z-index: 3000;
+    display: none;
+    max-width: 550px;
+    width: 90%;
+    border: 3px solid var(--accent-yellow);
+    animation: quizAppear 0.5s ease;
+  }
+  
+  @keyframes quizAppear {
+    from { 
+      opacity: 0; 
+      transform: translate(-50%, -50%) scale(0.8);
+    }
+    to { 
+      opacity: 1; 
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  
+  .quiz-modal.show { display: block; }
+  
+  .quiz-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--accent-yellow);
+    text-shadow: 0 0 10px rgba(255,204,0,0.5);
+    font-weight: 700;
+  }
+  
+  .quiz-question {
+    font-size: 1.15rem;
+    margin-bottom: 25px;
+    line-height: 1.6;
+    background: rgba(0,0,0,0.4);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent-yellow);
+    color: var(--text-white);
+  }
+  
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .quiz-option {
+    background: rgba(0,102,204,0.2);
+    border: 2px solid var(--primary-blue);
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.05rem;
+    color: var(--text-white);
+    font-weight: 500;
+  }
+  
+  .quiz-option:hover {
+    background: rgba(0,255,255,0.2);
+    border-color: var(--accent-cyan);
+    transform: translateX(5px);
+    box-shadow: 0 0 10px rgba(0,255,255,0.3);
+  }
+  
+  .quiz-option.correct {
+    background: rgba(0,170,68,0.3);
+    border-color: var(--primary-green);
+    animation: correct 0.5s ease;
+  }
+  
+  .quiz-option.incorrect {
+    background: rgba(221,51,51,0.3);
+    border-color: var(--primary-red);
+    animation: incorrect 0.5s ease;
+  }
+  
+  @keyframes correct {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+  
+  @keyframes incorrect {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+  }
+  
+  .quiz-feedback {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 10px;
+    display: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-left: 4px solid var(--primary-green);
+  }
+  
+  .quiz-feedback.show { display: block; }
+  
+  .quiz-continue {
+    margin-top: 15px;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, var(--primary-green), #00DD55);
+    color: var(--text-white);
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,170,68,0.5);
+  }
+  
+  .quiz-continue.show { display: inline-block; }
+  
+  .quiz-continue:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,255,85,0.6);
+  }
+  
+  /* Game Over */
+  .message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1a1a2e, #0f0f1e);
+    color: var(--text-white);
+    padding: 30px 50px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    z-index: 2000;
+    display: none;
+    animation: fadeIn 0.5s ease;
+    border: 3px solid var(--primary-blue);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -60%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+  }
+  
+  .message.show { display: block; }
+  
+  .message h2 {
+    color: var(--accent-cyan);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(0,255,255,0.5);
+  }
+  
+  .message p {
+    font-size: 1.3rem;
+    margin: 10px 0;
+    color: var(--text-gray);
+  }
+  
+  .score-highlight {
+    color: var(--accent-yellow);
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    #hud { gap: 8px; }
+    .panel { padding: 6px 10px; }
+    .bar { width: 70px; height: 12px; }
+    .bar-label { min-width: 45px; font-size: 0.85rem; }
+    .controls { font-size: 0.9rem; }
+    .quiz-modal { padding: 20px; }
+    .tutorial-modal { padding: 20px; }
+    .tutorial-title { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+  <div id="gameContainer">
+    <h1 id="title">🛩️ BERLIN AIRLIFT: OPERATION VITTLES 🛩️</h1>
+    <div id="hud">
+      <div class="panel">
+        <div class="stat-label">Score</div>
+        <div class="stat-value" id="score">0</div>
+      </div>
+      <div class="panel">
+        <div class="stat-label">Knowledge</div>
+        <div class="stat-value" id="knowledge">0</div>
+      </div>
+      <div class="panel month-progress">
+        <div class="month-label">BLOCKADE PROGRESS</div>
+        <div class="month-bar">
+          <div class="month-fill" id="monthBar" style="width:0%">JUNE 1948</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="bar-container">
+          <span class="bar-icon">🍞</span>
+          <span class="bar-label">Hunger</span>
+          <div class="bar">
+            <div class="bar-fill" id="foodBar" style="width:75%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="bar-container">
+          <span class="bar-icon">🔥</span>
+          <span class="bar-label">Warmth</span>
+          <div class="bar">
+            <div class="bar-fill" id="warmBar" style="width:75%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="bar-container">
+          <span class="bar-icon">😊</span>
+          <span class="bar-label">Morale</span>
+          <div class="bar">
+            <div class="bar-fill" id="moralBar" style="width:75%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="gameCanvas" width="1024" height="576"></canvas>
+    <div class="controls">
+      Use <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> to move • Click or touch to control
+    </div>
+  </div>
+  
+  <div class="soundToggle" id="soundToggle">🔊</div>
+  <div class="message" id="message"></div>
+  
+  <!-- Tutorial Modal -->
+  <div class="tutorial-modal" id="tutorialModal">
+    <h2 class="tutorial-title">BERLIN AIRLIFT 1948-1949</h2>
+    
+    <div class="tutorial-section">
+      <h3>📖 Historical Context</h3>
+      <p>The Soviet Union has blockaded West Berlin, cutting off 2.5 million people from food and supplies. You must help keep Berliners alive during the 11-month airlift!</p>
+    </div>
+    
+    <div class="tutorial-section">
+      <h3>🎯 Your Mission</h3>
+      <ul>
+        <li>Survive the entire 11-month blockade (5 minutes of gameplay)</li>
+        <li>Collect <span class="good-items">GOOD supplies</span>: Food 🍞, Coal 🪨, Medicine 💊, Chocolate 🍫</li>
+        <li>Avoid <span class="bad-items">BAD items</span>: Soviet Propaganda 📰, Rubble 🧱</li>
+        <li>Keep all stats (Hunger, Warmth, Morale) above zero</li>
+        <li>Answer history questions correctly for bonus points!</li>
+      </ul>
+    </div>
+    
+    <div class="tutorial-section">
+      <h3>🎮 Controls</h3>
+      <ul>
+        <li><strong>Keyboard:</strong> Arrow Keys or A/D to move left/right</li>
+        <li><strong>Mouse/Touch:</strong> Click or touch to move character</li>
+        <li><strong>Difficulty:</strong> Drops speed up as months pass!</li>
+      </ul>
+    </div>
+    
+    <div class="tutorial-section">
+      <h3>💡 Tips</h3>
+      <ul>
+        <li>Each month lasts about 27 seconds - plan ahead!</li>
+        <li>Winter months need more coal 🪨 for warmth!</li>
+        <li>Each item triggers related historical questions</li>
+        <li>Learn about the real "Candy Bomber" pilot!</li>
+        <li>Can you survive all 11 months in 5 minutes?</li>
+      </ul>
+    </div>
+    
+    <button class="start-button" onclick="startGame()">START MISSION</button>
+  </div>
+  
+  <!-- Quiz Modal -->
+  <div class="quiz-modal" id="quizModal">
+    <h2 class="quiz-title">HISTORICAL KNOWLEDGE CHECK</h2>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="quiz-continue" id="quizContinue">Continue</button>
+  </div>
+
+<script>
+// Enhanced Berlin Airlift Game with 11-month timeline
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+// Game state
+const game = {
+  tick: 0,
+  score: 0,
+  month: 0, // 0-10 (June 1948 to May 1949)
+  knowledge: 0,
+  food: 75,
+  warm: 75,
+  morale: 75,
+  paused: true, // Start paused for tutorial
+  soundEnabled: true,
+  gameOver: false,
+  gameWon: false,
+  particles: [],
+  floatingTexts: [],
+  planes: [],
+  quizActive: false,
+  questionsAnswered: 0,
+  difficulty: 1,
+  dropRate: 60, // Initial frames between drops
+  totalMonths: 11,
+  monthTicks: 1640 // Ticks per month (~27.3 seconds at 60fps for 5 minute total)
+};
+
+// Month names for display
+const MONTHS = [
+  "JUNE 1948", "JULY 1948", "AUG 1948", "SEPT 1948", "OCT 1948", "NOV 1948",
+  "DEC 1948", "JAN 1949", "FEB 1949", "MAR 1949", "APR 1949", "MAY 1949"
+];
+
+// Educational quiz questions mapped to items
+const QUIZ_QUESTIONS = {
+  food: [
+    {
+      question: "Why was food so critical during the Berlin Blockade?",
+      options: [
+        "The Soviets cut off all ground supply routes to West Berlin",
+        "There was a worldwide food shortage",
+        "Berliners refused to eat Soviet food",
+        "The city's farms were destroyed"
+      ],
+      correct: 0,
+      explanation: "The Soviet blockade cut off all road, rail, and water routes to West Berlin, leaving 2.5 million people without access to food supplies."
+    },
+    {
+      question: "How many tons of supplies were delivered daily at the airlift's peak?",
+      options: [
+        "100 tons",
+        "500 tons",
+        "1,500 tons",
+        "5,000 tons"
+      ],
+      correct: 3,
+      explanation: "At its peak, the airlift delivered about 5,000 tons of supplies daily, with food making up a significant portion to feed West Berlin's population."
+    }
+  ],
+  coal: [
+    {
+      question: "Why was coal essential during the Berlin Blockade?",
+      options: [
+        "For cooking only",
+        "For heating homes and generating electricity",
+        "To sell for profit",
+        "For industrial production"
+      ],
+      correct: 1,
+      explanation: "Coal was vital for heating homes during Berlin's freezing winters and for generating electricity to keep the city functioning. Coal sacks were one of the most important supplies dropped."
+    },
+    {
+      question: "What percentage of airlift cargo was coal during winter months?",
+      options: [
+        "10%",
+        "25%",
+        "50%",
+        "65%"
+      ],
+      correct: 3,
+      explanation: "During winter months, coal made up about 65% of all cargo - crucial for survival in temperatures well below freezing."
+    }
+  ],
+  medicine: [
+    {
+      question: "What medical supplies were most urgently needed?",
+      options: [
+        "Cosmetics and luxury items",
+        "Antibiotics and vaccines",
+        "Experimental drugs",
+        "Traditional remedies"
+      ],
+      correct: 1,
+      explanation: "Antibiotics like penicillin and vaccines were critical to prevent disease outbreaks in the blockaded city with limited sanitation."
+    }
+  ],
+  milk: [
+    {
+      question: "Why was dried milk powder used instead of fresh milk?",
+      options: [
+        "It was cheaper",
+        "It was lighter and didn't spoil during transport",
+        "Berliners preferred it",
+        "Fresh milk was illegal"
+      ],
+      correct: 1,
+      explanation: "Dried milk was much lighter than fresh milk and wouldn't spoil during flights, making it perfect for airlift operations while providing essential nutrition."
+    }
+  ],
+  candy: [
+    {
+      question: "Who was the famous 'Candy Bomber' pilot?",
+      options: [
+        "Chuck Yeager",
+        "Charles Lindbergh",
+        "Gail Halvorsen",
+        "Jimmy Doolittle"
+      ],
+      correct: 2,
+      explanation: "Lt. Gail Halvorsen became famous for dropping candy attached to handkerchief parachutes for Berlin's children, boosting morale during dark times."
+    },
+    {
+      question: "What did German children call the candy-dropping planes?",
+      options: [
+        "Sugar Birds",
+        "Chocolate Fliers",
+        "Raisin Bombers",
+        "Sweet Angels"
+      ],
+      correct: 2,
+      explanation: "German children called them 'Rosinenbomber' (Raisin Bombers) because of the candy and raisins dropped on tiny parachutes."
+    }
+  ],
+  flour: [
+    {
+      question: "How much flour did each Berliner receive per day during rationing?",
+      options: [
+        "2 pounds",
+        "1 pound",
+        "400 grams",
+        "100 grams"
+      ],
+      correct: 2,
+      explanation: "Each person received about 400 grams (less than 1 pound) of flour daily - just enough to make basic bread for survival."
+    }
+  ],
+  propaganda: [
+    {
+      question: "What did Soviet propaganda claim about the airlift?",
+      options: [
+        "It would succeed brilliantly",
+        "It was impossible and would fail within weeks",
+        "It was helping communism",
+        "It was supported by Stalin"
+      ],
+      correct: 1,
+      explanation: "Soviet propaganda insisted the airlift was impossible and would fail quickly, hoping to demoralize West Berliners and force Allied withdrawal."
+    }
+  ],
+  general: [
+    {
+      question: "What was the American operation name for the airlift?",
+      options: [
+        "Operation Freedom",
+        "Operation Vittles",
+        "Operation Supply",
+        "Operation Berlin"
+      ],
+      correct: 1,
+      explanation: "The Americans called it 'Operation Vittles' (food supplies), while the British called their part 'Operation Plainfare'."
+    },
+    {
+      question: "How long did the Berlin Blockade last?",
+      options: [
+        "3 months",
+        "6 months",
+        "11 months",
+        "2 years"
+      ],
+      correct: 2,
+      explanation: "The blockade lasted from June 1948 to May 1949 - about 11 months of continuous flights delivering supplies."
+    }
+  ]
+};
+
+// Map items to quiz categories
+const ITEM_QUIZ_MAP = {
+  'Food Crate': 'food',
+  'Coal': 'coal',
+  'Medicine': 'medicine',
+  'Dried Milk': 'milk',
+  'Chocolate': 'candy',
+  'Flour Sacks': 'flour',
+  'Soviet Propaganda': 'propaganda',
+  'Rubble': 'general',
+  'Empty Crate': 'general'
+};
+
+let usedQuestions = new Set();
+
+// Player
+const player = {
+  x: W/2,
+  y: H * 0.78,
+  w: 50,
+  h: 55,
+  vx: 0,
+  ax: 1.8,
+  max: 10,
+  frame: 0,
+  facing: 1,
+  invulnerable: 0
+};
+
+// Input
+const keys = new Set();
+let mouseX = null;
+
+// Sound system
+class SoundManager {
+  constructor() {
+    this.context = null;
+    this.sounds = {};
+    this.enabled = true;
+  }
+  
+  init() {
+    if (this.context) return;
+    this.context = new (window.AudioContext || window.webkitAudioContext)();
+    this.createSounds();
+  }
+  
+  createSounds() {
+    this.sounds.collect = () => this.playTone(800, 0.1, 'sine', 0.3);
+    this.sounds.good = () => this.playTone(1200, 0.15, 'sine', 0.4);
+    this.sounds.bad = () => this.playTone(200, 0.2, 'sawtooth', 0.3);
+    this.sounds.plane = () => this.playNoise(0.05, 0.1);
+    this.sounds.quiz = () => this.playTone(600, 0.2, 'triangle', 0.3);
+    this.sounds.victory = () => {
+      this.playTone(800, 0.1, 'sine', 0.3);
+      setTimeout(() => this.playTone(1000, 0.1, 'sine', 0.3), 100);
+      setTimeout(() => this.playTone(1200, 0.2, 'sine', 0.4), 200);
+    };
+    this.sounds.correct = () => {
+      this.playTone(800, 0.1, 'sine', 0.3);
+      setTimeout(() => this.playTone(1200, 0.15, 'sine', 0.3), 100);
+    };
+  }
+  
+  playTone(freq, duration, type = 'sine', volume = 0.3) {
+    if (!this.enabled || !this.context) return;
+    const osc = this.context.createOscillator();
+    const gain = this.context.createGain();
+    osc.connect(gain);
+    gain.connect(this.context.destination);
+    osc.frequency.value = freq;
+    osc.type = type;
+    gain.gain.setValueAtTime(volume, this.context.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.context.currentTime + duration);
+    osc.start();
+    osc.stop(this.context.currentTime + duration);
+  }
+  
+  playNoise(duration, volume) {
+    if (!this.enabled || !this.context) return;
+    const bufferSize = this.context.sampleRate * duration;
+    const buffer = this.context.createBuffer(1, bufferSize, this.context.sampleRate);
+    const output = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      output[i] = Math.random() * 2 - 1;
+    }
+    const noise = this.context.createBufferSource();
+    const gain = this.context.createGain();
+    noise.buffer = buffer;
+    noise.connect(gain);
+    gain.connect(this.context.destination);
+    gain.gain.setValueAtTime(volume, this.context.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.context.currentTime + duration);
+    noise.start();
+  }
+  
+  toggle() {
+    this.enabled = !this.enabled;
+    return this.enabled;
+  }
+}
+
+const sound = new SoundManager();
+
+// Items configuration
+const ITEMS = [
+  // Good items
+  {name:'Food Crate', type:'good', icon:'🍞', effects:{food:18}, color:'#D4A574', weight:0.18},
+  {name:'Coal', type:'good', icon:'🪨', effects:{warm:20}, color:'#2C3E50', weight:0.18},
+  {name:'Medicine', type:'good', icon:'💊', effects:{morale:8, food:8}, color:'#3498DB', weight:0.12},
+  {name:'Dried Milk', type:'good', icon:'🥛', effects:{food:15}, color:'#ECF0F1', weight:0.10},
+  {name:'Chocolate', type:'good', icon:'🍫', effects:{morale:25}, color:'#8B4513', weight:0.08},
+  {name:'Flour Sacks', type:'good', icon:'🌾', effects:{food:12}, color:'#F4E04D', weight:0.10},
+  
+  // Bad items
+  {name:'Soviet Propaganda', type:'bad', icon:'📰', effects:{morale:-15}, color:'#E74C3C', weight:0.08},
+  {name:'Rubble', type:'bad', icon:'🧱', effects:{warm:-10, morale:-10}, color:'#34495E', weight:0.08},
+  {name:'Empty Crate', type:'bad', icon:'📦', effects:{morale:-12}, color:'#95A5A6', weight:0.08}
+];
+
+// Calculate cumulative weights
+const totalWeight = ITEMS.reduce((sum, item) => sum + item.weight, 0);
+let cumulativeWeights = [];
+let cumSum = 0;
+for (const item of ITEMS) {
+  cumSum += item.weight;
+  cumulativeWeights.push(cumSum);
+}
+
+// Game objects
+const drops = [];
+const particles = [];
+const floatingTexts = [];
+const planes = [];
+
+// Utility functions
+function rand(min, max) { return min + Math.random() * (max - min); }
+function clamp(val, min = 0, max = 100) { return Math.max(min, Math.min(max, val)); }
+
+function getBarColor(value) {
+  if (value > 66) return 'linear-gradient(90deg, #00AA44, #00DD55)';
+  if (value > 33) return 'linear-gradient(90deg, #FFCC00, #FF9900)';
+  return 'linear-gradient(90deg, #DD3333, #FF0000)';
+}
+
+// Particle system
+class Particle {
+  constructor(x, y, color, vx = 0, vy = 0) {
+    this.x = x;
+    this.y = y;
+    this.vx = vx || rand(-2, 2);
+    this.vy = vy || rand(-3, -1);
+    this.color = color;
+    this.life = 1;
+    this.decay = rand(0.01, 0.03);
+    this.size = rand(2, 5);
+  }
+  
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vy += 0.1;
+    this.life -= this.decay;
+    this.size *= 0.98;
+  }
+  
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.life;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+// Floating text
+class FloatingText {
+  constructor(x, y, text, color, size = 24) {
+    this.x = x;
+    this.y = y;
+    this.text = text;
+    this.color = color;
+    this.life = 1;
+    this.vy = -2;
+    this.size = size;
+  }
+  
+  update() {
+    this.y += this.vy;
+    this.vy *= 0.95;
+    this.life -= 0.02;
+  }
+  
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.life;
+    ctx.fillStyle = this.color;
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 3;
+    ctx.font = `bold ${this.size}px Calibri`;
+    ctx.textAlign = 'center';
+    ctx.strokeText(this.text, this.x, this.y);
+    ctx.fillText(this.text, this.x, this.y);
+    ctx.restore();
+  }
+}
+
+// Plane class
+class Plane {
+  constructor() {
+    this.x = -100;
+    this.y = rand(50, 150);
+    this.speed = rand(2, 3) * game.difficulty;
+    this.dropped = false;
+    this.dropX = rand(200, W - 200);
+  }
+  
+  update() {
+    this.x += this.speed;
+    
+    if (!this.dropped && this.x > this.dropX) {
+      this.dropped = true;
+      spawnDrop(this.x, this.y);
+      sound.sounds.plane?.();
+    }
+  }
+  
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    
+    // C-47 Skytrain
+    ctx.fillStyle = '#4A5568';
+    ctx.fillRect(-40, -8, 80, 16);
+    
+    // Wings
+    ctx.fillRect(-20, -25, 40, 8);
+    ctx.fillRect(-20, 8, 40, 8);
+    
+    // US marking
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(0, 0, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#0066CC';
+    ctx.beginPath();
+    ctx.arc(0, 0, 4, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Cockpit
+    ctx.fillStyle = '#718096';
+    ctx.beginPath();
+    ctx.arc(30, 0, 10, -Math.PI/2, Math.PI/2);
+    ctx.fill();
+    
+    // Propellers
+    ctx.strokeStyle = '#2D3748';
+    ctx.lineWidth = 3;
+    const propAngle = Date.now() * 0.02;
+    ctx.beginPath();
+    ctx.moveTo(40 + Math.cos(propAngle) * 15, Math.sin(propAngle) * 15);
+    ctx.lineTo(40 - Math.cos(propAngle) * 15, -Math.sin(propAngle) * 15);
+    ctx.moveTo(40 + Math.cos(propAngle + Math.PI/2) * 15, Math.sin(propAngle + Math.PI/2) * 15);
+    ctx.lineTo(40 - Math.cos(propAngle + Math.PI/2) * 15, -Math.sin(propAngle + Math.PI/2) * 15);
+    ctx.stroke();
+    
+    ctx.restore();
+  }
+}
+
+// Start game function
+function startGame() {
+  document.getElementById('tutorialModal').style.display = 'none';
+  game.paused = false;
+  sound.init();
+}
+
+// Quiz System
+function showQuiz(itemName = null) {
+  if (game.quizActive || game.gameOver || game.gameWon) return;
+  
+  game.paused = true;
+  game.quizActive = true;
+  
+  let quizCategory = 'general';
+  if (itemName && ITEM_QUIZ_MAP[itemName]) {
+    quizCategory = ITEM_QUIZ_MAP[itemName];
+  }
+  
+  let availableQuestions = QUIZ_QUESTIONS[quizCategory] || QUIZ_QUESTIONS.general;
+  
+  availableQuestions = availableQuestions.filter((q, idx) => 
+    !usedQuestions.has(`${quizCategory}-${idx}`)
+  );
+  
+  if (availableQuestions.length === 0) {
+    availableQuestions = QUIZ_QUESTIONS[quizCategory] || QUIZ_QUESTIONS.general;
+    [...usedQuestions].forEach(key => {
+      if (key.startsWith(quizCategory)) {
+        usedQuestions.delete(key);
+      }
+    });
+  }
+  
+  const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+  const quiz = availableQuestions[questionIndex];
+  
+  const originalIndex = (QUIZ_QUESTIONS[quizCategory] || QUIZ_QUESTIONS.general).indexOf(quiz);
+  usedQuestions.add(`${quizCategory}-${originalIndex}`);
+  
+  const modal = document.getElementById('quizModal');
+  const questionEl = document.getElementById('quizQuestion');
+  const optionsEl = document.getElementById('quizOptions');
+  const feedbackEl = document.getElementById('quizFeedback');
+  const continueBtn = document.getElementById('quizContinue');
+  const titleEl = modal.querySelector('.quiz-title');
+  
+  if (itemName) {
+    titleEl.textContent = `KNOWLEDGE CHECK: ${itemName.toUpperCase()}`;
+  } else {
+    titleEl.textContent = 'HISTORICAL KNOWLEDGE CHECK';
+  }
+  
+  questionEl.textContent = quiz.question;
+  optionsEl.innerHTML = '';
+  feedbackEl.classList.remove('show');
+  continueBtn.classList.remove('show');
+  
+  quiz.options.forEach((option, index) => {
+    const btn = document.createElement('div');
+    btn.className = 'quiz-option';
+    btn.textContent = option;
+    btn.onclick = () => handleQuizAnswer(index, quiz);
+    optionsEl.appendChild(btn);
+  });
+  
+  modal.classList.add('show');
+  sound.sounds.quiz?.();
+}
+
+function handleQuizAnswer(selected, quiz) {
+  const options = document.querySelectorAll('.quiz-option');
+  const feedbackEl = document.getElementById('quizFeedback');
+  const continueBtn = document.getElementById('quizContinue');
+  
+  options.forEach(opt => opt.onclick = null);
+  
+  if (selected === quiz.correct) {
+    options[selected].classList.add('correct');
+    feedbackEl.innerHTML = `<strong style="color: #00AA44;">Correct!</strong> ${quiz.explanation}`;
+    
+    game.knowledge += 10;
+    game.score += 25;
+    game.morale = clamp(game.morale + 10);
+    floatingTexts.push(new FloatingText(W/2, H/2, '+25 SCORE!', '#00AA44'));
+    sound.sounds.correct?.();
+  } else {
+    options[selected].classList.add('incorrect');
+    options[quiz.correct].classList.add('correct');
+    feedbackEl.innerHTML = `<strong style="color: #DD3333;">Not quite.</strong> ${quiz.explanation}`;
+    sound.sounds.bad?.();
+  }
+  
+  feedbackEl.classList.add('show');
+  continueBtn.classList.add('show');
+  continueBtn.onclick = closeQuiz;
+  
+  game.questionsAnswered++;
+}
+
+function closeQuiz() {
+  const modal = document.getElementById('quizModal');
+  modal.classList.remove('show');
+  game.paused = false;
+  game.quizActive = false;
+  updateStats();
+}
+
+// Spawn a drop
+function spawnDrop(x = null, y = null) {
+  const random = Math.random() * totalWeight;
+  let selectedItem = ITEMS[0];
+  for (let i = 0; i < ITEMS.length; i++) {
+    if (random <= cumulativeWeights[i]) {
+      selectedItem = ITEMS[i];
+      break;
+    }
+  }
+  
+  drops.push({
+    item: selectedItem,
+    x: x || rand(100, W - 100),
+    y: y || -50,
+    vy: rand(1.5, 2.5) * game.difficulty,
+    vx: rand(-0.5, 0.5),
+    rotation: 0,
+    rotSpeed: rand(-0.02, 0.02),
+    size: 45
+  });
+}
+
+// Draw functions
+function drawBackground() {
+  // Sky gradient
+  const gradient = ctx.createLinearGradient(0, 0, 0, H * 0.7);
+  gradient.addColorStop(0, '#4A90E2');
+  gradient.addColorStop(0.5, '#357ABD');
+  gradient.addColorStop(1, '#2E5984');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, W, H * 0.7);
+  
+  // Clouds
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  const cloudPositions = [[150, 80], [400, 60], [650, 90], [850, 70]];
+  for (const [x, y] of cloudPositions) {
+    ctx.save();
+    ctx.translate(x + Math.sin(game.tick * 0.001) * 10, y);
+    ctx.beginPath();
+    ctx.arc(0, 0, 25, 0, Math.PI * 2);
+    ctx.arc(20, 5, 20, 0, Math.PI * 2);
+    ctx.arc(-20, 5, 18, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+  
+  // BERLIN WALL with graffiti
+  const wallHeight = H * 0.35;
+  const wallY = H * 0.7 - wallHeight;
+  
+  // Wall base
+  ctx.fillStyle = '#8B8C8D';
+  ctx.fillRect(0, wallY, W, wallHeight);
+  
+  // Concrete texture
+  ctx.fillStyle = '#9B9B9B';
+  for (let i = 0; i < 20; i++) {
+    ctx.fillRect(
+      Math.random() * W,
+      wallY + Math.random() * wallHeight,
+      rand(20, 60),
+      rand(10, 30)
+    );
+  }
+  
+  // Wall segments
+  ctx.strokeStyle = '#6B6B6B';
+  ctx.lineWidth = 2;
+  for (let x = 0; x < W; x += 80) {
+    ctx.beginPath();
+    ctx.moveTo(x, wallY);
+    ctx.lineTo(x, wallY + wallHeight);
+    ctx.stroke();
+  }
+  
+  // Barbed wire
+  ctx.strokeStyle = '#4A4A4A';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 15) {
+    ctx.beginPath();
+    ctx.moveTo(x, wallY);
+    ctx.lineTo(x + 7, wallY - 10);
+    ctx.lineTo(x + 15, wallY);
+    ctx.stroke();
+  }
+  
+  // GRAFFITI with high contrast colors - extensive artwork
+  ctx.save();
+  
+  // "FREEDOM" text
+  ctx.font = 'bold 48px Calibri';
+  ctx.fillStyle = '#FF0000';
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.lineWidth = 3;
+  ctx.save();
+  ctx.translate(150, wallY + 100);
+  ctx.rotate(-0.05);
+  ctx.strokeText('FREEDOM', 0, 0);
+  ctx.fillText('FREEDOM', 0, 0);
+  ctx.restore();
+  
+  // Peace symbol
+  ctx.strokeStyle = '#FFCC00';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(W - 200, wallY + 80, 30, 0, Math.PI * 2);
+  ctx.moveTo(W - 200, wallY + 50);
+  ctx.lineTo(W - 200, wallY + 110);
+  ctx.moveTo(W - 200, wallY + 80);
+  ctx.lineTo(W - 220, wallY + 100);
+  ctx.moveTo(W - 200, wallY + 80);
+  ctx.lineTo(W - 180, wallY + 100);
+  ctx.stroke();
+  
+  // "BERLIN 1948" spray paint
+  ctx.font = 'bold 36px Calibri';
+  ctx.fillStyle = '#00FFFF';
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 2;
+  ctx.strokeText('BERLIN 1948', 420, wallY + 120);
+  ctx.fillText('BERLIN 1948', 420, wallY + 120);
+  
+  // "HOPE" text
+  ctx.font = 'bold 32px Calibri';
+  ctx.fillStyle = '#00FF00';
+  ctx.fillText('HOPE', 50, wallY + 150);
+  
+  // "AIRLIFT" with bright colors
+  ctx.font = 'bold 40px Calibri';
+  ctx.fillStyle = '#FF69B4';
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.lineWidth = 2;
+  ctx.strokeText('AIRLIFT', 280, wallY + 60);
+  ctx.fillText('AIRLIFT', 280, wallY + 60);
+  
+  // Hearts in different colors
+  const heartColors = ['#FF1493', '#FF69B4', '#FFB6C1'];
+  for (let i = 0; i < 3; i++) {
+    ctx.fillStyle = heartColors[i];
+    const hx = 550 + i * 35;
+    const hy = wallY + 140;
+    ctx.beginPath();
+    ctx.moveTo(hx, hy + 8);
+    ctx.arc(hx - 6, hy, 6, Math.PI, 0);
+    ctx.arc(hx + 6, hy, 6, Math.PI, 0);
+    ctx.lineTo(hx, hy + 15);
+    ctx.fill();
+  }
+  
+  // "WE WILL NOT FORGET" message
+  ctx.font = 'italic 24px Georgia';
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText('WE WILL NOT', 680, wallY + 50);
+  ctx.fillText('FORGET', 700, wallY + 75);
+  
+  // "DANKE" (Thank you in German)
+  ctx.font = 'bold 44px Calibri';
+  ctx.fillStyle = '#FFD700';
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 3;
+  ctx.save();
+  ctx.translate(750, wallY + 120);
+  ctx.rotate(0.1);
+  ctx.strokeText('DANKE!', 0, 0);
+  ctx.fillText('DANKE!', 0, 0);
+  ctx.restore();
+  
+  // Children's drawings - stick figures
+  ctx.strokeStyle = '#FF69B4';
+  ctx.lineWidth = 2;
+  // Child 1
+  ctx.beginPath();
+  ctx.arc(350, wallY + 90, 8, 0, Math.PI * 2);
+  ctx.moveTo(350, wallY + 98);
+  ctx.lineTo(350, wallY + 120);
+  ctx.moveTo(340, wallY + 105);
+  ctx.lineTo(360, wallY + 105);
+  ctx.moveTo(350, wallY + 120);
+  ctx.lineTo(345, wallY + 135);
+  ctx.moveTo(350, wallY + 120);
+  ctx.lineTo(355, wallY + 135);
+  ctx.stroke();
+  
+  // Child 2 waving
+  ctx.strokeStyle = '#00CED1';
+  ctx.beginPath();
+  ctx.arc(380, wallY + 90, 8, 0, Math.PI * 2);
+  ctx.moveTo(380, wallY + 98);
+  ctx.lineTo(380, wallY + 120);
+  ctx.moveTo(370, wallY + 100);
+  ctx.lineTo(390, wallY + 110);
+  ctx.moveTo(380, wallY + 120);
+  ctx.lineTo(375, wallY + 135);
+  ctx.moveTo(380, wallY + 120);
+  ctx.lineTo(385, wallY + 135);
+  ctx.stroke();
+  
+  // "BLOCKADE BREAKERS" text
+  ctx.font = 'bold 28px Impact';
+  ctx.fillStyle = '#FF4500';
+  ctx.fillText('BLOCKADE', 500, wallY + 40);
+  ctx.fillStyle = '#00FF00';
+  ctx.fillText('BREAKERS', 500, wallY + 65);
+  
+  // Stars scattered around
+  const starColors = ['#FFD700', '#FFA500', '#FF69B4', '#00FFFF', '#FFFF00'];
+  for (let i = 0; i < 8; i++) {
+    ctx.fillStyle = starColors[i % starColors.length];
+    const sx = 200 + i * 70 + Math.sin(i) * 20;
+    const sy = wallY + 160 + Math.cos(i) * 10;
+    ctx.save();
+    ctx.translate(sx, sy);
+    ctx.rotate(i * 0.5);
+    ctx.beginPath();
+    for (let j = 0; j < 5; j++) {
+      const angle = (j * 144 - 90) * Math.PI / 180;
+      const r = j % 2 === 0 ? 8 : 4;
+      ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+  
+  // "NEVER AGAIN" with red underline
+  ctx.font = 'bold 30px Calibri';
+  ctx.fillStyle = '#FFFFFF';
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 2;
+  ctx.strokeText('NEVER AGAIN', 580, wallY + 160);
+  ctx.fillText('NEVER AGAIN', 580, wallY + 160);
+  ctx.strokeStyle = '#FF0000';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(580, wallY + 165);
+  ctx.lineTo(700, wallY + 165);
+  ctx.stroke();
+  
+  // Plane doodle
+  ctx.strokeStyle = '#4169E1';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W - 100, wallY + 100);
+  ctx.lineTo(W - 60, wallY + 100);
+  ctx.moveTo(W - 85, wallY + 95);
+  ctx.lineTo(W - 75, wallY + 105);
+  ctx.moveTo(W - 85, wallY + 105);
+  ctx.lineTo(W - 75, wallY + 95);
+  ctx.stroke();
+  // Candy falling from plane
+  ctx.fillStyle = '#FF1493';
+  ctx.fillRect(W - 80, wallY + 110, 5, 5);
+  ctx.fillRect(W - 70, wallY + 115, 5, 5);
+  ctx.fillRect(W - 75, wallY + 120, 5, 5);
+  
+  // "VITTLES" spray paint
+  ctx.font = 'bold 38px Calibri';
+  ctx.fillStyle = '#00FF7F';
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.lineWidth = 2;
+  ctx.save();
+  ctx.translate(80, wallY + 80);
+  ctx.rotate(-0.1);
+  ctx.strokeText('VITTLES', 0, 0);
+  ctx.fillText('VITTLES', 0, 0);
+  ctx.restore();
+  
+  // Arrow pointing up with "SUPPLIES"
+  ctx.strokeStyle = '#FFFF00';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(450, wallY + 150);
+  ctx.lineTo(450, wallY + 100);
+  ctx.lineTo(440, wallY + 110);
+  ctx.moveTo(450, wallY + 100);
+  ctx.lineTo(460, wallY + 110);
+  ctx.stroke();
+  ctx.font = '16px Calibri';
+  ctx.fillStyle = '#FFFF00';
+  ctx.fillText('SUPPLIES', 425, wallY + 170);
+  
+  ctx.restore();
+  
+  // Ground
+  ctx.fillStyle = '#1a1a2e';
+  ctx.fillRect(0, H * 0.7, W, H * 0.3);
+  
+  // Runway
+  ctx.fillStyle = '#0f1621';
+  ctx.fillRect(0, H * 0.77, W, H * 0.1);
+  
+  // Runway markings
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([20, 20]);
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.82);
+  ctx.lineTo(W, H * 0.82);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawDrop(drop) {
+  ctx.save();
+  ctx.translate(drop.x, drop.y);
+  ctx.rotate(drop.rotation);
+  
+  // Parachute
+  if (drop.y > 0) {
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.lineWidth = 1;
+    for (let i = -1; i <= 1; i++) {
+      ctx.beginPath();
+      ctx.moveTo(i * 12, -20);
+      ctx.lineTo(i * 6, 0);
+      ctx.stroke();
+    }
+    
+    // Parachute canopy
+    const gradient = ctx.createRadialGradient(0, -25, 5, 0, -25, 25);
+    gradient.addColorStop(0, '#FFFFFF');
+    gradient.addColorStop(1, '#B0C4DE');
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(0, -25, 20, Math.PI, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#6B7AA1';
+    ctx.stroke();
+  }
+  
+  // Crate
+  const s = drop.size;
+  ctx.fillStyle = drop.item.color;
+  ctx.fillRect(-s/2, -s/2, s, s);
+  
+  // 3D effect
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+  ctx.beginPath();
+  ctx.moveTo(s/2, -s/2);
+  ctx.lineTo(s/2 + 5, -s/2 - 5);
+  ctx.lineTo(s/2 + 5, s/2 - 5);
+  ctx.lineTo(s/2, s/2);
+  ctx.fill();
+  
+  // Icon
+  ctx.font = `${s * 0.6}px serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'white';
+  ctx.fillText(drop.item.icon, 0, 0);
+  
+  // Warning for bad items
+  if (drop.item.type === 'bad') {
+    ctx.strokeStyle = '#FF0000';
+    ctx.lineWidth = 3;
+    const pulse = Math.sin(Date.now() * 0.005) * 0.2 + 0.8;
+    ctx.strokeStyle = `rgba(255, 0, 0, ${pulse})`;
+    ctx.strokeRect(-s/2 - 3, -s/2 - 3, s + 6, s + 6);
+  }
+  
+  ctx.restore();
+  
+  // Shadow
+  if (drop.y < H * 0.77) {
+    const shadowScale = 1 - (drop.y / (H * 0.77));
+    ctx.fillStyle = `rgba(0, 0, 0, ${0.3 * (1 - shadowScale)})`;
+    ctx.beginPath();
+    ctx.ellipse(drop.x, H * 0.82, 25 * (1 - shadowScale), 8 * (1 - shadowScale), 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function drawPlayer() {
+  ctx.save();
+  ctx.translate(player.x, player.y);
+  
+  // Invulnerability flash
+  if (player.invulnerable > 0 && Math.floor(player.invulnerable / 5) % 2) {
+    ctx.globalAlpha = 0.5;
+  }
+  
+  // Shadow
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+  ctx.beginPath();
+  ctx.ellipse(0, 25, 20, 8, 0, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Animation
+  const walking = Math.abs(player.vx) > 0.5;
+  const wobble = walking ? Math.sin(player.frame * 0.3) * 2 : 0;
+  const armSwing = walking ? Math.sin(player.frame * 0.3) * 15 : 0;
+  
+  // Body
+  ctx.fillStyle = '#4A5568';
+  ctx.fillRect(-15, -20 + wobble, 30, 35);
+  
+  // Arms
+  ctx.strokeStyle = '#4A5568';
+  ctx.lineWidth = 8;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(-15, -10 + wobble);
+  ctx.lineTo(-25, 5 + armSwing);
+  ctx.moveTo(15, -10 + wobble);
+  ctx.lineTo(25, 5 - armSwing);
+  ctx.stroke();
+  
+  // Legs
+  ctx.strokeStyle = '#2D3748';
+  ctx.lineWidth = 10;
+  ctx.beginPath();
+  ctx.moveTo(-8, 15);
+  ctx.lineTo(-8, 25 + Math.sin(player.frame * 0.3 + Math.PI) * 3);
+  ctx.moveTo(8, 15);
+  ctx.lineTo(8, 25 + Math.sin(player.frame * 0.3) * 3);
+  ctx.stroke();
+  
+  // Head
+  ctx.fillStyle = '#FDBCB4';
+  ctx.beginPath();
+  ctx.arc(0, -30 + wobble, 12, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Face
+  ctx.fillStyle = '#2C3E50';
+  ctx.beginPath();
+  ctx.arc(-4 * player.facing, -32 + wobble, 2, 0, Math.PI * 2);
+  ctx.arc(4 * player.facing, -32 + wobble, 2, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Hat
+  ctx.fillStyle = '#1A202C';
+  ctx.fillRect(-14, -42 + wobble, 28, 10);
+  ctx.fillRect(-10, -38 + wobble, 20, 4);
+  
+  // Expression
+  if (game.morale < 30) {
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(0, -25 + wobble, 4, 0.2, Math.PI - 0.2);
+    ctx.stroke();
+  } else if (game.morale > 70) {
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(0, -28 + wobble, 4, Math.PI + 0.2, -0.2);
+    ctx.stroke();
+  }
+  
+  ctx.restore();
+}
+
+// Update functions
+function updatePlanes() {
+  if (game.tick % game.dropRate === 0 || (Math.random() < 0.003 * game.difficulty && planes.length < 3)) {
+    planes.push(new Plane());
+  }
+  
+  for (let i = planes.length - 1; i >= 0; i--) {
+    planes[i].update();
+    if (planes[i].x > W + 100) {
+      planes.splice(i, 1);
+    }
+  }
+}
+
+function updateDrops() {
+  for (let i = drops.length - 1; i >= 0; i--) {
+    const drop = drops[i];
+    drop.y += drop.vy;
+    drop.x += drop.vx;
+    drop.rotation += drop.rotSpeed;
+    
+    if (drop.y > H + 50) {
+      drops.splice(i, 1);
+      if (drop.item.type === 'good') {
+        floatingTexts.push(new FloatingText(drop.x, H - 50, 'MISSED!', '#DD3333'));
+        game.morale = clamp(game.morale - 2);
+      }
+    }
+  }
+}
+
+function checkCollisions() {
+  const px = player.x - player.w/2;
+  const py = player.y - player.h/2;
+  
+  for (let i = drops.length - 1; i >= 0; i--) {
+    const drop = drops[i];
+    const dx = drop.x - drop.size/2;
+    const dy = drop.y - drop.size/2;
+    
+    if (px < dx + drop.size && px + player.w > dx &&
+        py < dy + drop.size && py + player.h > dy) {
+      
+      const effects = drop.item.effects;
+      let message = drop.item.name + '!';
+      let color = '#00AA44';
+      let shouldTriggerQuiz = false;
+      
+      if (drop.item.type === 'good') {
+        game.score += 10;
+        sound.sounds.good?.();
+        shouldTriggerQuiz = true;
+      } else {
+        if (player.invulnerable <= 0) {
+          game.score = Math.max(0, game.score - 5);
+          color = '#DD3333';
+          player.invulnerable = 60;
+          sound.sounds.bad?.();
+          
+          if (drop.item.name === 'Soviet Propaganda') {
+            shouldTriggerQuiz = true;
+          }
+          
+          canvas.style.animation = 'none';
+          setTimeout(() => {
+            canvas.style.animation = 'shake 0.3s';
+          }, 10);
+        } else {
+          message = 'BLOCKED!';
+          color = '#FFCC00';
+        }
+      }
+      
+      if (player.invulnerable <= 0 || drop.item.type === 'good') {
+        for (const [stat, value] of Object.entries(effects)) {
+          game[stat] = clamp(game[stat] + value);
+        }
+      }
+      
+      floatingTexts.push(new FloatingText(drop.x, drop.y, message, color));
+      
+      for (let j = 0; j < 10; j++) {
+        particles.push(new Particle(drop.x, drop.y, drop.item.color));
+      }
+      
+      // Trigger context-sensitive quiz
+      if (shouldTriggerQuiz && !game.quizActive) {
+        if (Math.random() < 0.35) { // 35% chance
+          setTimeout(() => showQuiz(drop.item.name), 500);
+        }
+      }
+      
+      drops.splice(i, 1);
+      sound.sounds.collect?.();
+    }
+  }
+}
+
+function updatePlayer() {
+  const left = keys.has('arrowleft') || keys.has('a');
+  const right = keys.has('arrowright') || keys.has('d');
+  
+  if (left && !right) {
+    player.vx -= player.ax;
+    player.facing = -1;
+  } else if (right && !left) {
+    player.vx += player.ax;
+    player.facing = 1;
+  } else {
+    player.vx *= 0.85;
+  }
+  
+  if (mouseX !== null) {
+    const diff = mouseX - player.x;
+    player.vx = clamp(diff * 0.15, -player.max, player.max);
+    if (Math.abs(diff) > 5) {
+      player.facing = Math.sign(diff);
+    }
+  }
+  
+  player.vx = clamp(player.vx, -player.max, player.max);
+  player.x += player.vx;
+  player.x = clamp(player.x, 50, W - 50);
+  
+  if (Math.abs(player.vx) > 0.5) {
+    player.frame += 1;
+  }
+  
+  if (player.invulnerable > 0) {
+    player.invulnerable--;
+  }
+}
+
+function updateParticles() {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    particles[i].update();
+    if (particles[i].life <= 0) {
+      particles.splice(i, 1);
+    }
+  }
+}
+
+function updateFloatingTexts() {
+  for (let i = floatingTexts.length - 1; i >= 0; i--) {
+    floatingTexts[i].update();
+    if (floatingTexts[i].life <= 0) {
+      floatingTexts.splice(i, 1);
+    }
+  }
+}
+
+function updateStats() {
+  if (game.tick % 90 === 0) { // Doubled rate (was 180)
+    // Winter months drain warmth faster
+    const isWinter = game.month >= 5 && game.month <= 8; // Nov-Feb
+    game.food = clamp(game.food - 2); // 2x faster (was 1)
+    game.warm = clamp(game.warm - (isWinter ? 4 : 2)); // 2x faster (was 2:1)
+    
+    if (game.food < 30 || game.warm < 30) {
+      game.morale = clamp(game.morale - 2.6); // 30% faster (was 2)
+    }
+  }
+  
+  // Additional morale drain for balance
+  if (game.tick % 120 === 0) {
+    game.morale = clamp(game.morale - 0.5); // Extra morale drain
+  }
+  
+  // Update month progress
+  const monthBar = document.getElementById('monthBar');
+  const totalProgress = ((game.month * game.monthTicks + (game.tick % game.monthTicks)) / (game.totalMonths * game.monthTicks)) * 100;
+  
+  monthBar.style.width = totalProgress + '%';
+  monthBar.textContent = MONTHS[game.month];
+  
+  // Progress to next month
+  if (game.tick % game.monthTicks === 0 && game.tick > 0) {
+    game.month++;
+    
+    if (game.month >= game.totalMonths) {
+      // Victory!
+      gameWon();
+      return;
+    }
+    
+    floatingTexts.push(new FloatingText(W/2, H/2, MONTHS[game.month], '#FFCC00', 36));
+    
+    // Increase difficulty each month
+    game.difficulty = 1 + (game.month * 0.15);
+    game.dropRate = Math.max(25, 60 - game.month * 4); // Faster progression for 5-minute game
+  }
+  
+  document.getElementById('score').textContent = game.score;
+  document.getElementById('knowledge').textContent = game.knowledge;
+  
+  const foodBar = document.getElementById('foodBar');
+  const warmBar = document.getElementById('warmBar');
+  const moralBar = document.getElementById('moralBar');
+  
+  foodBar.style.width = game.food + '%';
+  warmBar.style.width = game.warm + '%';
+  moralBar.style.width = game.morale + '%';
+  
+  foodBar.style.background = getBarColor(game.food);
+  warmBar.style.background = getBarColor(game.warm);
+  moralBar.style.background = getBarColor(game.morale);
+  
+  if (game.food <= 0 || game.warm <= 0 || game.morale <= 0) {
+    gameOver();
+  }
+}
+
+function gameWon() {
+  game.gameWon = true;
+  game.paused = true;
+  sound.sounds.victory?.();
+  
+  const message = document.getElementById('message');
+  message.innerHTML = `
+    <h2 style="color: #00FFFF;">🎉 VICTORY! 🎉</h2>
+    <p style="color: #00FF00; font-size: 1.5rem;">You survived the entire Berlin Blockade!</p>
+    <p>11 months completed in 5 minutes!</p>
+    <p><span class="score-highlight">Final Score: ${game.score}</span></p>
+    <p><span class="score-highlight">Knowledge Points: ${game.knowledge}</span></p>
+    <p>Questions Answered: ${game.questionsAnswered}</p>
+    <p style="margin-top: 20px; color: #FFCC00;">West Berlin remains free thanks to heroes like you!</p>
+    <button onclick="location.reload()" style="
+      margin-top: 20px;
+      padding: 12px 35px;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, #00AA44, #00FF00);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(0,255,0,0.4);
+    ">Play Again</button>
+  `;
+  message.classList.add('show');
+}
+
+function gameOver() {
+  game.gameOver = true;
+  game.paused = true;
+  
+  const message = document.getElementById('message');
+  message.innerHTML = `
+    <h2>Game Over</h2>
+    <p>You survived ${MONTHS[game.month].split(' ')[0]} ${MONTHS[game.month].split(' ')[1]}</p>
+    <p><span class="score-highlight">Final Score: ${game.score}</span></p>
+    <p>Knowledge Points: ${game.knowledge}</p>
+    <p>Questions Answered: ${game.questionsAnswered}</p>
+    <button onclick="location.reload()" style="
+      margin-top: 20px;
+      padding: 12px 35px;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, #0066CC, #00FFFF);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 700;
+    ">Try Again</button>
+  `;
+  message.classList.add('show');
+}
+
+// Main game loop
+function update() {
+  if (game.paused) return;
+  
+  game.tick++;
+  
+  updatePlanes();
+  updateDrops();
+  updatePlayer();
+  checkCollisions();
+  updateParticles();
+  updateFloatingTexts();
+  updateStats();
+}
+
+function render() {
+  ctx.clearRect(0, 0, W, H);
+  
+  drawBackground();
+  
+  for (const plane of planes) {
+    plane.draw();
+  }
+  
+  for (const drop of drops) {
+    drawDrop(drop);
+  }
+  
+  drawPlayer();
+  
+  for (const particle of particles) {
+    particle.draw();
+  }
+  
+  for (const text of floatingTexts) {
+    text.draw();
+  }
+  
+  // Warning indicators for bad items
+  ctx.strokeStyle = '#FF0000';
+  ctx.lineWidth = 2;
+  for (const drop of drops) {
+    if (drop.item.type === 'bad' && drop.y < 100) {
+      ctx.save();
+      ctx.globalAlpha = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(drop.x, 0);
+      ctx.lineTo(drop.x, 50);
+      ctx.stroke();
+      
+      ctx.fillStyle = '#FF0000';
+      ctx.beginPath();
+      ctx.moveTo(drop.x, 20);
+      ctx.lineTo(drop.x - 10, 35);
+      ctx.lineTo(drop.x + 10, 35);
+      ctx.closePath();
+      ctx.fill();
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 18px Calibri';
+      ctx.textAlign = 'center';
+      ctx.fillText('!', drop.x, 32);
+      ctx.restore();
+    }
+  }
+}
+
+function gameLoop() {
+  update();
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+// Input handlers
+window.addEventListener('keydown', (e) => {
+  const key = e.key.toLowerCase();
+  if (['arrowleft', 'arrowright', 'a', 'd'].includes(key)) {
+    keys.add(key);
+    e.preventDefault();
+    if (!sound.context) sound.init();
+  }
+});
+
+window.addEventListener('keyup', (e) => {
+  const key = e.key.toLowerCase();
+  keys.delete(key);
+});
+
+function getMouseX(e) {
+  const rect = canvas.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  return (clientX - rect.left) * (W / rect.width);
+}
+
+canvas.addEventListener('mousedown', (e) => {
+  mouseX = getMouseX(e);
+  if (!sound.context) sound.init();
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  if (e.buttons === 1) {
+    mouseX = getMouseX(e);
+  }
+});
+
+canvas.addEventListener('mouseup', () => {
+  mouseX = null;
+});
+
+canvas.addEventListener('touchstart', (e) => {
+  mouseX = getMouseX(e);
+  e.preventDefault();
+  if (!sound.context) sound.init();
+});
+
+canvas.addEventListener('touchmove', (e) => {
+  mouseX = getMouseX(e);
+  e.preventDefault();
+});
+
+canvas.addEventListener('touchend', () => {
+  mouseX = null;
+});
+
+document.getElementById('soundToggle').addEventListener('click', () => {
+  const enabled = sound.toggle();
+  document.getElementById('soundToggle').textContent = enabled ? '🔊' : '🔇';
+});
+
+document.getElementById('quizContinue').addEventListener('click', closeQuiz);
+
+// Add shake animation
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+`;
+document.head.appendChild(style);
+
+// Start game
+gameLoop();
+</script>
+</body>
+</html>
