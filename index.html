@@ -39,14 +39,14 @@
   
   #gameContainer {
     width: 100%;
-    max-width: 1100px;
-    padding: 12px;
+    max-width: 880px;
+    padding: 10px;
   }
   
   #title {
-    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
     font-weight: 900;
     letter-spacing: 2px;
@@ -55,18 +55,18 @@
   
   #hud {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     justify-content: center;
   }
   
   .panel {
     background: var(--panel-bg);
     border: 2px solid var(--primary-blue);
-    border-radius: 10px;
-    padding: 8px 12px;
+    border-radius: 8px;
+    padding: 6px 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     transition: all 0.3s ease;
   }
@@ -78,7 +78,7 @@
   }
   
   .stat-label {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: var(--text-gray);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -88,7 +88,7 @@
   
   .stat-value {
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: var(--accent-cyan);
     text-shadow: 0 0 10px rgba(0,255,255,0.5);
   }
@@ -96,20 +96,20 @@
   .bar-container {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
   
   .bar-label {
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     color: var(--text-white);
     font-weight: 600;
-    min-width: 55px;
+    min-width: 44px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   }
   
   .bar {
-    width: 100px;
-    height: 14px;
+    width: 80px;
+    height: 11px;
     background: rgba(0,0,0,0.7);
     border: 2px solid rgba(255,255,255,0.3);
     border-radius: 999px;
@@ -143,32 +143,32 @@
   }
   
   .bar-icon {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
   }
   
   /* Month Progress Bar */
   .month-progress {
     width: 100%;
-    max-width: 300px;
+    max-width: 240px;
     margin: 0 auto;
   }
   
   .month-label {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--accent-cyan);
     text-align: center;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
     font-weight: 600;
     text-shadow: 0 0 5px rgba(0,255,255,0.5);
   }
   
   .month-bar {
     width: 100%;
-    height: 20px;
+    height: 16px;
     background: rgba(0,0,0,0.7);
     border: 2px solid var(--accent-cyan);
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
   }
@@ -180,7 +180,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 900;
     color: #FFFFFF;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8);
@@ -196,10 +196,10 @@
   #gameCanvas {
     display: block;
     width: 100%;
-    max-width: 922px;
+    max-width: 738px;
     margin: 0 auto;
     border: 3px solid var(--primary-blue);
-    border-radius: 15px;
+    border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.7), 0 0 20px rgba(0,102,204,0.5);
     cursor: grab;
     background: transparent;
@@ -209,9 +209,9 @@
   
   .controls {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 8px;
     color: var(--text-white);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 500;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
   }
@@ -220,28 +220,28 @@
     background: var(--primary-blue);
     color: var(--text-white);
     border: 2px solid var(--accent-cyan);
-    border-radius: 5px;
-    padding: 4px 10px;
-    margin: 0 3px;
+    border-radius: 4px;
+    padding: 3px 8px;
+    margin: 0 2px;
     font-weight: 700;
     box-shadow: 0 3px 6px rgba(0,0,0,0.4);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
   }
   
   .soundToggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 16px;
+    right: 16px;
     background: var(--panel-bg);
     border: 2px solid var(--primary-blue);
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     transition: all 0.3s ease;
     z-index: 1000;
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
@@ -261,11 +261,11 @@
     transform: translate(-50%, -50%);
     background: linear-gradient(135deg, #1a1a2e, #16213e);
     color: var(--text-white);
-    padding: 20px 25px;
-    border-radius: 20px;
+    padding: 16px 20px;
+    border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.9);
     z-index: 4000;
-    max-width: 600px;
+    max-width: 480px;
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
@@ -274,8 +274,8 @@
   }
   
   .tutorial-title {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
     text-align: center;
     color: var(--accent-cyan);
     text-shadow: 0 0 15px rgba(0,255,255,0.5);
@@ -284,29 +284,29 @@
   }
   
   .tutorial-section {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     background: rgba(0,0,0,0.3);
-    padding: 10px 12px;
-    border-radius: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
     border-left: 4px solid var(--primary-blue);
   }
   
   .tutorial-section h3 {
     color: var(--accent-yellow);
-    font-size: 1.1rem;
-    margin-bottom: 6px;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
     font-weight: 700;
   }
   
   .tutorial-section p, .tutorial-section li {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 1.4;
     color: var(--text-gray);
   }
   
   .tutorial-section ul {
-    margin-left: 18px;
-    margin-top: 5px;
+    margin-left: 15px;
+    margin-top: 4px;
   }
   
   .good-items {
@@ -321,13 +321,13 @@
   
   .start-button {
     display: block;
-    margin: 15px auto 0;
-    padding: 12px 35px;
+    margin: 12px auto 0;
+    padding: 10px 28px;
     background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
     color: var(--text-white);
     border: none;
-    border-radius: 25px;
-    font-size: 1.15rem;
+    border-radius: 20px;
+    font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -350,12 +350,12 @@
     transform: translate(-50%, -50%);
     background: linear-gradient(135deg, #16213e, #1a1a2e);
     color: var(--text-white);
-    padding: 25px;
-    border-radius: 20px;
+    padding: 20px;
+    border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.9);
     z-index: 3000;
     display: none;
-    max-width: 550px;
+    max-width: 440px;
     width: 90%;
     border: 3px solid var(--accent-yellow);
     animation: quizAppear 0.5s ease;
@@ -375,8 +375,8 @@
   .quiz-modal.show { display: block; }
   
   .quiz-title {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
     text-align: center;
     color: var(--accent-yellow);
     text-shadow: 0 0 10px rgba(255,204,0,0.5);
@@ -384,12 +384,12 @@
   }
   
   .quiz-question {
-    font-size: 1.15rem;
-    margin-bottom: 25px;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
     line-height: 1.6;
     background: rgba(0,0,0,0.4);
-    padding: 15px;
-    border-radius: 10px;
+    padding: 12px;
+    border-radius: 8px;
     border-left: 4px solid var(--accent-yellow);
     color: var(--text-white);
   }
@@ -397,17 +397,17 @@
   .quiz-options {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
   
   .quiz-option {
     background: rgba(0,102,204,0.2);
     border: 2px solid var(--primary-blue);
-    padding: 12px 18px;
-    border-radius: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1.05rem;
+    font-size: 0.9rem;
     color: var(--text-white);
     font-weight: 500;
   }
@@ -444,12 +444,12 @@
   }
   
   .quiz-feedback {
-    margin-top: 20px;
-    padding: 15px;
+    margin-top: 16px;
+    padding: 12px;
     background: rgba(0,0,0,0.4);
-    border-radius: 10px;
+    border-radius: 8px;
     display: none;
-    font-size: 1rem;
+    font-size: 0.85rem;
     line-height: 1.5;
     border-left: 4px solid var(--primary-green);
   }
@@ -457,13 +457,13 @@
   .quiz-feedback.show { display: block; }
   
   .quiz-continue {
-    margin-top: 15px;
-    padding: 12px 30px;
+    margin-top: 12px;
+    padding: 10px 24px;
     background: linear-gradient(135deg, var(--primary-green), #00DD55);
     color: var(--text-white);
     border: none;
-    border-radius: 25px;
-    font-size: 1.1rem;
+    border-radius: 20px;
+    font-size: 0.95rem;
     font-weight: 700;
     cursor: pointer;
     display: none;
@@ -486,9 +486,9 @@
     transform: translate(-50%, -50%);
     background: linear-gradient(135deg, #1a1a2e, #0f0f1e);
     color: var(--text-white);
-    padding: 30px 50px;
-    border-radius: 20px;
-    font-size: 1.2rem;
+    padding: 24px 40px;
+    border-radius: 16px;
+    font-size: 1rem;
     text-align: center;
     z-index: 2000;
     display: none;
@@ -506,35 +506,35 @@
   
   .message h2 {
     color: var(--accent-cyan);
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    font-size: 2rem;
+    margin-bottom: 16px;
     text-shadow: 0 0 20px rgba(0,255,255,0.5);
   }
   
   .message p {
-    font-size: 1.3rem;
-    margin: 10px 0;
+    font-size: 1.1rem;
+    margin: 8px 0;
     color: var(--text-gray);
   }
   
   .score-highlight {
     color: var(--accent-yellow);
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   
   @media (max-width: 768px) {
-    #hud { gap: 8px; }
-    .panel { padding: 6px 10px; }
-    .bar { width: 70px; height: 12px; }
-    .bar-label { min-width: 45px; font-size: 0.85rem; }
-    .controls { font-size: 0.9rem; }
-    .quiz-modal { padding: 20px; }
-    .tutorial-modal { padding: 15px; }
-    .tutorial-title { font-size: 1.5rem; }
-    .tutorial-section { padding: 8px 10px; margin-bottom: 10px; }
-    .tutorial-section h3 { font-size: 1rem; }
-    .tutorial-section p, .tutorial-section li { font-size: 0.85rem; }
+    #hud { gap: 6px; }
+    .panel { padding: 5px 8px; }
+    .bar { width: 56px; height: 10px; }
+    .bar-label { min-width: 36px; font-size: 0.75rem; }
+    .controls { font-size: 0.8rem; }
+    .quiz-modal { padding: 16px; }
+    .tutorial-modal { padding: 12px; }
+    .tutorial-title { font-size: 1.2rem; }
+    .tutorial-section { padding: 6px 8px; margin-bottom: 8px; }
+    .tutorial-section h3 { font-size: 0.85rem; }
+    .tutorial-section p, .tutorial-section li { font-size: 0.75rem; }
   }
 </style>
 </head>
@@ -584,7 +584,7 @@
         </div>
       </div>
     </div>
-    <canvas id="gameCanvas" width="922" height="518"></canvas>
+    <canvas id="gameCanvas" width="738" height="414"></canvas>
     <div class="controls">
       Use <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> to move • Click or touch to control
     </div>
@@ -596,7 +596,7 @@
   <!-- Tutorial Modal -->
   <div class="tutorial-modal" id="tutorialModal">
     <h2 class="tutorial-title">BERLIN AIRLIFT 1948-1949</h2>
-    <p style="text-align: center; color: var(--accent-cyan); font-size: 0.9rem; margin-top: -10px; margin-bottom: 15px;">
+    <p style="text-align: center; color: var(--accent-cyan); font-size: 0.75rem; margin-top: -8px; margin-bottom: 12px;">
       Designed by <strong>Godwin Tan</strong>
     </p>
     
@@ -649,10 +649,10 @@
   </div>
 
 <script>
-// Enhanced Berlin Airlift Game with 11-month timeline
+// Enhanced Berlin Airlift Game with 11-month timeline - 80% SCALED VERSION
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const W = 922, H = 518;
+const W = 738, H = 414; // 80% of original 922x518
 
 // Game state
 const game = {
@@ -851,15 +851,15 @@ const ITEM_QUIZ_MAP = {
 
 let usedQuestions = new Set();
 
-// Player
+// Player (scaled proportionally)
 const player = {
   x: W/2,
   y: H * 0.78,
-  w: 50,
-  h: 55,
+  w: 40,  // 80% of 50
+  h: 44,  // 80% of 55
   vx: 0,
-  ax: 1.8,
-  max: 10,
+  ax: 1.44, // 80% of 1.8
+  max: 8,     // 80% of 10
   frame: 0,
   facing: 1,
   invulnerable: 0
@@ -986,18 +986,18 @@ class Particle {
   constructor(x, y, color, vx = 0, vy = 0) {
     this.x = x;
     this.y = y;
-    this.vx = vx || rand(-2, 2);
-    this.vy = vy || rand(-3, -1);
+    this.vx = vx || rand(-1.6, 1.6);
+    this.vy = vy || rand(-2.4, -0.8);
     this.color = color;
     this.life = 1;
     this.decay = rand(0.01, 0.03);
-    this.size = rand(2, 5);
+    this.size = rand(1.6, 4);
   }
   
   update() {
     this.x += this.vx;
     this.y += this.vy;
-    this.vy += 0.1;
+    this.vy += 0.08;
     this.life -= this.decay;
     this.size *= 0.98;
   }
@@ -1015,13 +1015,13 @@ class Particle {
 
 // Floating text
 class FloatingText {
-  constructor(x, y, text, color, size = 24) {
+  constructor(x, y, text, color, size = 19) {
     this.x = x;
     this.y = y;
     this.text = text;
     this.color = color;
     this.life = 1;
-    this.vy = -2;
+    this.vy = -1.6;
     this.size = size;
   }
   
@@ -1036,7 +1036,7 @@ class FloatingText {
     ctx.globalAlpha = this.life;
     ctx.fillStyle = this.color;
     ctx.strokeStyle = 'black';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.4;
     ctx.font = `bold ${this.size}px Calibri`;
     ctx.textAlign = 'center';
     ctx.strokeText(this.text, this.x, this.y);
@@ -1045,14 +1045,14 @@ class FloatingText {
   }
 }
 
-// Plane class
+// Plane class (scaled)
 class Plane {
   constructor() {
-    this.x = -100;
-    this.y = rand(50, 150);
-    this.speed = rand(2, 3) * game.difficulty;
+    this.x = -80;
+    this.y = rand(40, 120);
+    this.speed = rand(1.6, 2.4) * game.difficulty;
     this.dropped = false;
-    this.dropX = rand(200, W - 200);
+    this.dropX = rand(160, W - 160);
   }
   
   update() {
@@ -1069,39 +1069,39 @@ class Plane {
     ctx.save();
     ctx.translate(this.x, this.y);
     
-    // C-47 Skytrain
+    // C-47 Skytrain (scaled to 80%)
     ctx.fillStyle = '#4A5568';
-    ctx.fillRect(-40, -8, 80, 16);
+    ctx.fillRect(-32, -6.4, 64, 12.8);
     
     // Wings
-    ctx.fillRect(-20, -25, 40, 8);
-    ctx.fillRect(-20, 8, 40, 8);
+    ctx.fillRect(-16, -20, 32, 6.4);
+    ctx.fillRect(-16, 6.4, 32, 6.4);
     
     // US marking
     ctx.fillStyle = 'white';
     ctx.beginPath();
-    ctx.arc(0, 0, 6, 0, Math.PI * 2);
+    ctx.arc(0, 0, 4.8, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = '#0066CC';
     ctx.beginPath();
-    ctx.arc(0, 0, 4, 0, Math.PI * 2);
+    ctx.arc(0, 0, 3.2, 0, Math.PI * 2);
     ctx.fill();
     
     // Cockpit
     ctx.fillStyle = '#718096';
     ctx.beginPath();
-    ctx.arc(30, 0, 10, -Math.PI/2, Math.PI/2);
+    ctx.arc(24, 0, 8, -Math.PI/2, Math.PI/2);
     ctx.fill();
     
     // Propellers
     ctx.strokeStyle = '#2D3748';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.4;
     const propAngle = Date.now() * 0.02;
     ctx.beginPath();
-    ctx.moveTo(40 + Math.cos(propAngle) * 15, Math.sin(propAngle) * 15);
-    ctx.lineTo(40 - Math.cos(propAngle) * 15, -Math.sin(propAngle) * 15);
-    ctx.moveTo(40 + Math.cos(propAngle + Math.PI/2) * 15, Math.sin(propAngle + Math.PI/2) * 15);
-    ctx.lineTo(40 - Math.cos(propAngle + Math.PI/2) * 15, -Math.sin(propAngle + Math.PI/2) * 15);
+    ctx.moveTo(32 + Math.cos(propAngle) * 12, Math.sin(propAngle) * 12);
+    ctx.lineTo(32 - Math.cos(propAngle) * 12, -Math.sin(propAngle) * 12);
+    ctx.moveTo(32 + Math.cos(propAngle + Math.PI/2) * 12, Math.sin(propAngle + Math.PI/2) * 12);
+    ctx.lineTo(32 - Math.cos(propAngle + Math.PI/2) * 12, -Math.sin(propAngle + Math.PI/2) * 12);
     ctx.stroke();
     
     ctx.restore();
@@ -1216,7 +1216,7 @@ function closeQuiz() {
   updateStats();
 }
 
-// Spawn a drop
+// Spawn a drop (scaled)
 function spawnDrop(x = null, y = null) {
   const random = Math.random() * totalWeight;
   let selectedItem = ITEMS[0];
@@ -1229,17 +1229,17 @@ function spawnDrop(x = null, y = null) {
   
   drops.push({
     item: selectedItem,
-    x: x || rand(100, W - 100),
-    y: y || -50,
-    vy: rand(1.5, 2.5) * game.difficulty,
-    vx: rand(-0.5, 0.5),
+    x: x || rand(80, W - 80),
+    y: y || -40,
+    vy: rand(1.2, 2) * game.difficulty,
+    vx: rand(-0.4, 0.4),
     rotation: 0,
     rotSpeed: rand(-0.02, 0.02),
-    size: 45
+    size: 36  // 80% of 45
   });
 }
 
-// Draw functions
+// Draw functions (all coordinates scaled to 80%)
 function drawBackground() {
   // Sky gradient
   const gradient = ctx.createLinearGradient(0, 0, 0, H * 0.7);
@@ -1249,21 +1249,21 @@ function drawBackground() {
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, W, H * 0.7);
   
-  // Clouds
+  // Clouds (scaled positions and sizes)
   ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-  const cloudPositions = [[150, 80], [400, 60], [650, 90], [850, 70]];
+  const cloudPositions = [[120, 64], [320, 48], [520, 72], [680, 56]];
   for (const [x, y] of cloudPositions) {
     ctx.save();
-    ctx.translate(x + Math.sin(game.tick * 0.001) * 10, y);
+    ctx.translate(x + Math.sin(game.tick * 0.001) * 8, y);
     ctx.beginPath();
-    ctx.arc(0, 0, 25, 0, Math.PI * 2);
-    ctx.arc(20, 5, 20, 0, Math.PI * 2);
-    ctx.arc(-20, 5, 18, 0, Math.PI * 2);
+    ctx.arc(0, 0, 20, 0, Math.PI * 2);
+    ctx.arc(16, 4, 16, 0, Math.PI * 2);
+    ctx.arc(-16, 4, 14.4, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   }
   
-  // BERLIN WALL with graffiti
+  // BERLIN WALL with graffiti (scaled)
   const wallHeight = H * 0.35;
   const wallY = H * 0.7 - wallHeight;
   
@@ -1277,15 +1277,15 @@ function drawBackground() {
     ctx.fillRect(
       Math.random() * W,
       wallY + Math.random() * wallHeight,
-      rand(20, 60),
-      rand(10, 30)
+      rand(16, 48),
+      rand(8, 24)
     );
   }
   
   // Wall segments
   ctx.strokeStyle = '#6B6B6B';
-  ctx.lineWidth = 2;
-  for (let x = 0; x < W; x += 80) {
+  ctx.lineWidth = 1.6;
+  for (let x = 0; x < W; x += 64) {
     ctx.beginPath();
     ctx.moveTo(x, wallY);
     ctx.lineTo(x, wallY + wallHeight);
@@ -1294,25 +1294,25 @@ function drawBackground() {
   
   // Barbed wire
   ctx.strokeStyle = '#4A4A4A';
-  ctx.lineWidth = 1;
-  for (let x = 0; x < W; x += 15) {
+  ctx.lineWidth = 0.8;
+  for (let x = 0; x < W; x += 12) {
     ctx.beginPath();
     ctx.moveTo(x, wallY);
-    ctx.lineTo(x + 7, wallY - 10);
-    ctx.lineTo(x + 15, wallY);
+    ctx.lineTo(x + 5.6, wallY - 8);
+    ctx.lineTo(x + 12, wallY);
     ctx.stroke();
   }
   
-  // GRAFFITI with high contrast colors - extensive artwork
+  // GRAFFITI with high contrast colors - extensive artwork (all scaled to 80%)
   ctx.save();
   
   // "FREEDOM" text
-  ctx.font = 'bold 48px Calibri';
+  ctx.font = 'bold 38px Calibri';
   ctx.fillStyle = '#FF0000';
   ctx.strokeStyle = '#FFFFFF';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 2.4;
   ctx.save();
-  ctx.translate(150, wallY + 100);
+  ctx.translate(120, wallY + 80);
   ctx.rotate(-0.05);
   ctx.strokeText('FREEDOM', 0, 0);
   ctx.fillText('FREEDOM', 0, 0);
@@ -1320,120 +1320,120 @@ function drawBackground() {
   
   // Peace symbol
   ctx.strokeStyle = '#FFCC00';
-  ctx.lineWidth = 4;
+  ctx.lineWidth = 3.2;
   ctx.beginPath();
-  ctx.arc(W - 200, wallY + 80, 30, 0, Math.PI * 2);
-  ctx.moveTo(W - 200, wallY + 50);
-  ctx.lineTo(W - 200, wallY + 110);
-  ctx.moveTo(W - 200, wallY + 80);
-  ctx.lineTo(W - 220, wallY + 100);
-  ctx.moveTo(W - 200, wallY + 80);
-  ctx.lineTo(W - 180, wallY + 100);
+  ctx.arc(W - 160, wallY + 64, 24, 0, Math.PI * 2);
+  ctx.moveTo(W - 160, wallY + 40);
+  ctx.lineTo(W - 160, wallY + 88);
+  ctx.moveTo(W - 160, wallY + 64);
+  ctx.lineTo(W - 176, wallY + 80);
+  ctx.moveTo(W - 160, wallY + 64);
+  ctx.lineTo(W - 144, wallY + 80);
   ctx.stroke();
   
   // "BERLIN 1948" spray paint
-  ctx.font = 'bold 36px Calibri';
+  ctx.font = 'bold 29px Calibri';
   ctx.fillStyle = '#00FFFF';
   ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 2;
-  ctx.strokeText('BERLIN 1948', 420, wallY + 120);
-  ctx.fillText('BERLIN 1948', 420, wallY + 120);
+  ctx.lineWidth = 1.6;
+  ctx.strokeText('BERLIN 1948', 336, wallY + 96);
+  ctx.fillText('BERLIN 1948', 336, wallY + 96);
   
   // "HOPE" text
-  ctx.font = 'bold 32px Calibri';
+  ctx.font = 'bold 26px Calibri';
   ctx.fillStyle = '#00FF00';
-  ctx.fillText('HOPE', 50, wallY + 150);
+  ctx.fillText('HOPE', 40, wallY + 120);
   
   // "AIRLIFT" with bright colors
-  ctx.font = 'bold 40px Calibri';
+  ctx.font = 'bold 32px Calibri';
   ctx.fillStyle = '#FF69B4';
   ctx.strokeStyle = '#FFFFFF';
-  ctx.lineWidth = 2;
-  ctx.strokeText('AIRLIFT', 280, wallY + 60);
-  ctx.fillText('AIRLIFT', 280, wallY + 60);
+  ctx.lineWidth = 1.6;
+  ctx.strokeText('AIRLIFT', 224, wallY + 48);
+  ctx.fillText('AIRLIFT', 224, wallY + 48);
   
   // Hearts in different colors
   const heartColors = ['#FF1493', '#FF69B4', '#FFB6C1'];
   for (let i = 0; i < 3; i++) {
     ctx.fillStyle = heartColors[i];
-    const hx = 550 + i * 35;
-    const hy = wallY + 140;
+    const hx = 440 + i * 28;
+    const hy = wallY + 112;
     ctx.beginPath();
-    ctx.moveTo(hx, hy + 8);
-    ctx.arc(hx - 6, hy, 6, Math.PI, 0);
-    ctx.arc(hx + 6, hy, 6, Math.PI, 0);
-    ctx.lineTo(hx, hy + 15);
+    ctx.moveTo(hx, hy + 6.4);
+    ctx.arc(hx - 4.8, hy, 4.8, Math.PI, 0);
+    ctx.arc(hx + 4.8, hy, 4.8, Math.PI, 0);
+    ctx.lineTo(hx, hy + 12);
     ctx.fill();
   }
   
   // "WE WILL NOT FORGET" message
-  ctx.font = 'italic 24px Georgia';
+  ctx.font = 'italic 19px Georgia';
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillText('WE WILL NOT', 680, wallY + 50);
-  ctx.fillText('FORGET', 700, wallY + 75);
+  ctx.fillText('WE WILL NOT', 544, wallY + 40);
+  ctx.fillText('FORGET', 560, wallY + 60);
   
   // "DANKE" (Thank you in German)
-  ctx.font = 'bold 44px Calibri';
+  ctx.font = 'bold 35px Calibri';
   ctx.fillStyle = '#FFD700';
   ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 2.4;
   ctx.save();
-  ctx.translate(750, wallY + 120);
+  ctx.translate(600, wallY + 96);
   ctx.rotate(0.1);
   ctx.strokeText('DANKE!', 0, 0);
   ctx.fillText('DANKE!', 0, 0);
   ctx.restore();
   
-  // Children's drawings - stick figures
+  // Children's drawings - stick figures (scaled)
   ctx.strokeStyle = '#FF69B4';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1.6;
   // Child 1
   ctx.beginPath();
-  ctx.arc(350, wallY + 90, 8, 0, Math.PI * 2);
-  ctx.moveTo(350, wallY + 98);
-  ctx.lineTo(350, wallY + 120);
-  ctx.moveTo(340, wallY + 105);
-  ctx.lineTo(360, wallY + 105);
-  ctx.moveTo(350, wallY + 120);
-  ctx.lineTo(345, wallY + 135);
-  ctx.moveTo(350, wallY + 120);
-  ctx.lineTo(355, wallY + 135);
+  ctx.arc(280, wallY + 72, 6.4, 0, Math.PI * 2);
+  ctx.moveTo(280, wallY + 78.4);
+  ctx.lineTo(280, wallY + 96);
+  ctx.moveTo(272, wallY + 84);
+  ctx.lineTo(288, wallY + 84);
+  ctx.moveTo(280, wallY + 96);
+  ctx.lineTo(276, wallY + 108);
+  ctx.moveTo(280, wallY + 96);
+  ctx.lineTo(284, wallY + 108);
   ctx.stroke();
   
   // Child 2 waving
   ctx.strokeStyle = '#00CED1';
   ctx.beginPath();
-  ctx.arc(380, wallY + 90, 8, 0, Math.PI * 2);
-  ctx.moveTo(380, wallY + 98);
-  ctx.lineTo(380, wallY + 120);
-  ctx.moveTo(370, wallY + 100);
-  ctx.lineTo(390, wallY + 110);
-  ctx.moveTo(380, wallY + 120);
-  ctx.lineTo(375, wallY + 135);
-  ctx.moveTo(380, wallY + 120);
-  ctx.lineTo(385, wallY + 135);
+  ctx.arc(304, wallY + 72, 6.4, 0, Math.PI * 2);
+  ctx.moveTo(304, wallY + 78.4);
+  ctx.lineTo(304, wallY + 96);
+  ctx.moveTo(296, wallY + 80);
+  ctx.lineTo(312, wallY + 88);
+  ctx.moveTo(304, wallY + 96);
+  ctx.lineTo(300, wallY + 108);
+  ctx.moveTo(304, wallY + 96);
+  ctx.lineTo(308, wallY + 108);
   ctx.stroke();
   
   // "BLOCKADE BREAKERS" text
-  ctx.font = 'bold 28px Impact';
+  ctx.font = 'bold 22px Impact';
   ctx.fillStyle = '#FF4500';
-  ctx.fillText('BLOCKADE', 500, wallY + 40);
+  ctx.fillText('BLOCKADE', 400, wallY + 32);
   ctx.fillStyle = '#00FF00';
-  ctx.fillText('BREAKERS', 500, wallY + 65);
+  ctx.fillText('BREAKERS', 400, wallY + 52);
   
-  // Stars scattered around
+  // Stars scattered around (scaled)
   const starColors = ['#FFD700', '#FFA500', '#FF69B4', '#00FFFF', '#FFFF00'];
   for (let i = 0; i < 8; i++) {
     ctx.fillStyle = starColors[i % starColors.length];
-    const sx = 200 + i * 70 + Math.sin(i) * 20;
-    const sy = wallY + 160 + Math.cos(i) * 10;
+    const sx = 160 + i * 56 + Math.sin(i) * 16;
+    const sy = wallY + 128 + Math.cos(i) * 8;
     ctx.save();
     ctx.translate(sx, sy);
     ctx.rotate(i * 0.5);
     ctx.beginPath();
     for (let j = 0; j < 5; j++) {
       const angle = (j * 144 - 90) * Math.PI / 180;
-      const r = j % 2 === 0 ? 8 : 4;
+      const r = j % 2 === 0 ? 6.4 : 3.2;
       ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
     }
     ctx.closePath();
@@ -1442,43 +1442,43 @@ function drawBackground() {
   }
   
   // "NEVER AGAIN" with red underline
-  ctx.font = 'bold 30px Calibri';
+  ctx.font = 'bold 24px Calibri';
   ctx.fillStyle = '#FFFFFF';
   ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 2;
-  ctx.strokeText('NEVER AGAIN', 580, wallY + 160);
-  ctx.fillText('NEVER AGAIN', 580, wallY + 160);
+  ctx.lineWidth = 1.6;
+  ctx.strokeText('NEVER AGAIN', 464, wallY + 128);
+  ctx.fillText('NEVER AGAIN', 464, wallY + 128);
   ctx.strokeStyle = '#FF0000';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 2.4;
   ctx.beginPath();
-  ctx.moveTo(580, wallY + 165);
-  ctx.lineTo(700, wallY + 165);
+  ctx.moveTo(464, wallY + 132);
+  ctx.lineTo(560, wallY + 132);
   ctx.stroke();
   
-  // Plane doodle
+  // Plane doodle (scaled)
   ctx.strokeStyle = '#4169E1';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1.6;
   ctx.beginPath();
-  ctx.moveTo(W - 100, wallY + 100);
-  ctx.lineTo(W - 60, wallY + 100);
-  ctx.moveTo(W - 85, wallY + 95);
-  ctx.lineTo(W - 75, wallY + 105);
-  ctx.moveTo(W - 85, wallY + 105);
-  ctx.lineTo(W - 75, wallY + 95);
+  ctx.moveTo(W - 80, wallY + 80);
+  ctx.lineTo(W - 48, wallY + 80);
+  ctx.moveTo(W - 68, wallY + 76);
+  ctx.lineTo(W - 60, wallY + 84);
+  ctx.moveTo(W - 68, wallY + 84);
+  ctx.lineTo(W - 60, wallY + 76);
   ctx.stroke();
   // Candy falling from plane
   ctx.fillStyle = '#FF1493';
-  ctx.fillRect(W - 80, wallY + 110, 5, 5);
-  ctx.fillRect(W - 70, wallY + 115, 5, 5);
-  ctx.fillRect(W - 75, wallY + 120, 5, 5);
+  ctx.fillRect(W - 64, wallY + 88, 4, 4);
+  ctx.fillRect(W - 56, wallY + 92, 4, 4);
+  ctx.fillRect(W - 60, wallY + 96, 4, 4);
   
   // "VITTLES" spray paint
-  ctx.font = 'bold 38px Calibri';
+  ctx.font = 'bold 30px Calibri';
   ctx.fillStyle = '#00FF7F';
   ctx.strokeStyle = '#FFFFFF';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1.6;
   ctx.save();
-  ctx.translate(80, wallY + 80);
+  ctx.translate(64, wallY + 64);
   ctx.rotate(-0.1);
   ctx.strokeText('VITTLES', 0, 0);
   ctx.fillText('VITTLES', 0, 0);
@@ -1486,17 +1486,17 @@ function drawBackground() {
   
   // Arrow pointing up with "SUPPLIES"
   ctx.strokeStyle = '#FFFF00';
-  ctx.lineWidth = 4;
+  ctx.lineWidth = 3.2;
   ctx.beginPath();
-  ctx.moveTo(450, wallY + 150);
-  ctx.lineTo(450, wallY + 100);
-  ctx.lineTo(440, wallY + 110);
-  ctx.moveTo(450, wallY + 100);
-  ctx.lineTo(460, wallY + 110);
+  ctx.moveTo(360, wallY + 120);
+  ctx.lineTo(360, wallY + 80);
+  ctx.lineTo(352, wallY + 88);
+  ctx.moveTo(360, wallY + 80);
+  ctx.lineTo(368, wallY + 88);
   ctx.stroke();
-  ctx.font = '16px Calibri';
+  ctx.font = '13px Calibri';
   ctx.fillStyle = '#FFFF00';
-  ctx.fillText('SUPPLIES', 425, wallY + 170);
+  ctx.fillText('SUPPLIES', 340, wallY + 136);
   
   ctx.restore();
   
@@ -1510,8 +1510,8 @@ function drawBackground() {
   
   // Runway markings
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-  ctx.lineWidth = 3;
-  ctx.setLineDash([20, 20]);
+  ctx.lineWidth = 2.4;
+  ctx.setLineDash([16, 16]);
   ctx.beginPath();
   ctx.moveTo(0, H * 0.82);
   ctx.lineTo(W, H * 0.82);
@@ -1524,24 +1524,24 @@ function drawDrop(drop) {
   ctx.translate(drop.x, drop.y);
   ctx.rotate(drop.rotation);
   
-  // Parachute
+  // Parachute (scaled)
   if (drop.y > 0) {
     ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 0.8;
     for (let i = -1; i <= 1; i++) {
       ctx.beginPath();
-      ctx.moveTo(i * 12, -20);
-      ctx.lineTo(i * 6, 0);
+      ctx.moveTo(i * 9.6, -16);
+      ctx.lineTo(i * 4.8, 0);
       ctx.stroke();
     }
     
     // Parachute canopy
-    const gradient = ctx.createRadialGradient(0, -25, 5, 0, -25, 25);
+    const gradient = ctx.createRadialGradient(0, -20, 4, 0, -20, 20);
     gradient.addColorStop(0, '#FFFFFF');
     gradient.addColorStop(1, '#B0C4DE');
     ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(0, -25, 20, Math.PI, 0);
+    ctx.arc(0, -20, 16, Math.PI, 0);
     ctx.closePath();
     ctx.fill();
     ctx.strokeStyle = '#6B7AA1';
@@ -1557,8 +1557,8 @@ function drawDrop(drop) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
   ctx.beginPath();
   ctx.moveTo(s/2, -s/2);
-  ctx.lineTo(s/2 + 5, -s/2 - 5);
-  ctx.lineTo(s/2 + 5, s/2 - 5);
+  ctx.lineTo(s/2 + 4, -s/2 - 4);
+  ctx.lineTo(s/2 + 4, s/2 - 4);
   ctx.lineTo(s/2, s/2);
   ctx.fill();
   
@@ -1572,20 +1572,20 @@ function drawDrop(drop) {
   // Warning for bad items
   if (drop.item.type === 'bad') {
     ctx.strokeStyle = '#FF0000';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.4;
     const pulse = Math.sin(Date.now() * 0.005) * 0.2 + 0.8;
     ctx.strokeStyle = `rgba(255, 0, 0, ${pulse})`;
-    ctx.strokeRect(-s/2 - 3, -s/2 - 3, s + 6, s + 6);
+    ctx.strokeRect(-s/2 - 2.4, -s/2 - 2.4, s + 4.8, s + 4.8);
   }
   
   ctx.restore();
   
-  // Shadow
+  // Shadow (scaled)
   if (drop.y < H * 0.77) {
     const shadowScale = 1 - (drop.y / (H * 0.77));
     ctx.fillStyle = `rgba(0, 0, 0, ${0.3 * (1 - shadowScale)})`;
     ctx.beginPath();
-    ctx.ellipse(drop.x, H * 0.82, 25 * (1 - shadowScale), 8 * (1 - shadowScale), 0, 0, Math.PI * 2);
+    ctx.ellipse(drop.x, H * 0.82, 20 * (1 - shadowScale), 6.4 * (1 - shadowScale), 0, 0, Math.PI * 2);
     ctx.fill();
   }
 }
@@ -1599,72 +1599,72 @@ function drawPlayer() {
     ctx.globalAlpha = 0.5;
   }
   
-  // Shadow
+  // Shadow (scaled)
   ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
   ctx.beginPath();
-  ctx.ellipse(0, 25, 20, 8, 0, 0, Math.PI * 2);
+  ctx.ellipse(0, 20, 16, 6.4, 0, 0, Math.PI * 2);
   ctx.fill();
   
   // Animation
-  const walking = Math.abs(player.vx) > 0.5;
-  const wobble = walking ? Math.sin(player.frame * 0.3) * 2 : 0;
-  const armSwing = walking ? Math.sin(player.frame * 0.3) * 15 : 0;
+  const walking = Math.abs(player.vx) > 0.4;
+  const wobble = walking ? Math.sin(player.frame * 0.3) * 1.6 : 0;
+  const armSwing = walking ? Math.sin(player.frame * 0.3) * 12 : 0;
   
-  // Body
+  // Body (scaled)
   ctx.fillStyle = '#4A5568';
-  ctx.fillRect(-15, -20 + wobble, 30, 35);
+  ctx.fillRect(-12, -16 + wobble, 24, 28);
   
   // Arms
   ctx.strokeStyle = '#4A5568';
-  ctx.lineWidth = 8;
+  ctx.lineWidth = 6.4;
   ctx.lineCap = 'round';
   ctx.beginPath();
-  ctx.moveTo(-15, -10 + wobble);
-  ctx.lineTo(-25, 5 + armSwing);
-  ctx.moveTo(15, -10 + wobble);
-  ctx.lineTo(25, 5 - armSwing);
+  ctx.moveTo(-12, -8 + wobble);
+  ctx.lineTo(-20, 4 + armSwing);
+  ctx.moveTo(12, -8 + wobble);
+  ctx.lineTo(20, 4 - armSwing);
   ctx.stroke();
   
   // Legs
   ctx.strokeStyle = '#2D3748';
-  ctx.lineWidth = 10;
+  ctx.lineWidth = 8;
   ctx.beginPath();
-  ctx.moveTo(-8, 15);
-  ctx.lineTo(-8, 25 + Math.sin(player.frame * 0.3 + Math.PI) * 3);
-  ctx.moveTo(8, 15);
-  ctx.lineTo(8, 25 + Math.sin(player.frame * 0.3) * 3);
+  ctx.moveTo(-6.4, 12);
+  ctx.lineTo(-6.4, 20 + Math.sin(player.frame * 0.3 + Math.PI) * 2.4);
+  ctx.moveTo(6.4, 12);
+  ctx.lineTo(6.4, 20 + Math.sin(player.frame * 0.3) * 2.4);
   ctx.stroke();
   
   // Head
   ctx.fillStyle = '#FDBCB4';
   ctx.beginPath();
-  ctx.arc(0, -30 + wobble, 12, 0, Math.PI * 2);
+  ctx.arc(0, -24 + wobble, 9.6, 0, Math.PI * 2);
   ctx.fill();
   
   // Face
   ctx.fillStyle = '#2C3E50';
   ctx.beginPath();
-  ctx.arc(-4 * player.facing, -32 + wobble, 2, 0, Math.PI * 2);
-  ctx.arc(4 * player.facing, -32 + wobble, 2, 0, Math.PI * 2);
+  ctx.arc(-3.2 * player.facing, -25.6 + wobble, 1.6, 0, Math.PI * 2);
+  ctx.arc(3.2 * player.facing, -25.6 + wobble, 1.6, 0, Math.PI * 2);
   ctx.fill();
   
   // Hat
   ctx.fillStyle = '#1A202C';
-  ctx.fillRect(-14, -42 + wobble, 28, 10);
-  ctx.fillRect(-10, -38 + wobble, 20, 4);
+  ctx.fillRect(-11.2, -33.6 + wobble, 22.4, 8);
+  ctx.fillRect(-8, -30.4 + wobble, 16, 3.2);
   
   // Expression
   if (game.morale < 30) {
     ctx.strokeStyle = '#2C3E50';
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 0.8;
     ctx.beginPath();
-    ctx.arc(0, -25 + wobble, 4, 0.2, Math.PI - 0.2);
+    ctx.arc(0, -20 + wobble, 3.2, 0.2, Math.PI - 0.2);
     ctx.stroke();
   } else if (game.morale > 70) {
     ctx.strokeStyle = '#2C3E50';
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 0.8;
     ctx.beginPath();
-    ctx.arc(0, -28 + wobble, 4, Math.PI + 0.2, -0.2);
+    ctx.arc(0, -22.4 + wobble, 3.2, Math.PI + 0.2, -0.2);
     ctx.stroke();
   }
   
@@ -1679,7 +1679,7 @@ function updatePlanes() {
   
   for (let i = planes.length - 1; i >= 0; i--) {
     planes[i].update();
-    if (planes[i].x > W + 100) {
+    if (planes[i].x > W + 80) {
       planes.splice(i, 1);
     }
   }
@@ -1692,10 +1692,10 @@ function updateDrops() {
     drop.x += drop.vx;
     drop.rotation += drop.rotSpeed;
     
-    if (drop.y > H + 50) {
+    if (drop.y > H + 40) {
       drops.splice(i, 1);
       if (drop.item.type === 'good') {
-        floatingTexts.push(new FloatingText(drop.x, H - 50, 'MISSED!', '#DD3333'));
+        floatingTexts.push(new FloatingText(drop.x, H - 40, 'MISSED!', '#DD3333'));
         game.morale = clamp(game.morale - 2);
       }
     }
@@ -1752,7 +1752,7 @@ function checkCollisions() {
       
       floatingTexts.push(new FloatingText(drop.x, drop.y, message, color));
       
-      for (let j = 0; j < 10; j++) {
+      for (let j = 0; j < 8; j++) {
         particles.push(new Particle(drop.x, drop.y, drop.item.color));
       }
       
@@ -1786,16 +1786,16 @@ function updatePlayer() {
   if (mouseX !== null) {
     const diff = mouseX - player.x;
     player.vx = clamp(diff * 0.15, -player.max, player.max);
-    if (Math.abs(diff) > 5) {
+    if (Math.abs(diff) > 4) {
       player.facing = Math.sign(diff);
     }
   }
   
   player.vx = clamp(player.vx, -player.max, player.max);
   player.x += player.vx;
-  player.x = clamp(player.x, 50, W - 50);
+  player.x = clamp(player.x, 40, W - 40);
   
-  if (Math.abs(player.vx) > 0.5) {
+  if (Math.abs(player.vx) > 0.4) {
     player.frame += 1;
   }
   
@@ -1856,7 +1856,7 @@ function updateStats() {
       return;
     }
     
-    floatingTexts.push(new FloatingText(W/2, H/2, MONTHS[game.month], '#FFCC00', 36));
+    floatingTexts.push(new FloatingText(W/2, H/2, MONTHS[game.month], '#FFCC00', 29));
     
     // Increase difficulty each month
     game.difficulty = 1 + (game.month * 0.15);
@@ -1891,20 +1891,20 @@ function gameWon() {
   const message = document.getElementById('message');
   message.innerHTML = `
     <h2 style="color: #00FFFF;">🎉 VICTORY! 🎉</h2>
-    <p style="color: #00FF00; font-size: 1.5rem;">You survived the entire Berlin Blockade!</p>
+    <p style="color: #00FF00; font-size: 1.2rem;">You survived the entire Berlin Blockade!</p>
     <p>11 months completed in 5 minutes!</p>
     <p><span class="score-highlight">Final Score: ${game.score}</span></p>
     <p><span class="score-highlight">Knowledge Points: ${game.knowledge}</span></p>
     <p>Questions Answered: ${game.questionsAnswered}</p>
-    <p style="margin-top: 20px; color: #FFCC00;">West Berlin remains free thanks to heroes like you!</p>
+    <p style="margin-top: 16px; color: #FFCC00;">West Berlin remains free thanks to heroes like you!</p>
     <button onclick="location.reload()" style="
-      margin-top: 20px;
-      padding: 12px 35px;
-      font-size: 1.2rem;
+      margin-top: 16px;
+      padding: 10px 28px;
+      font-size: 1rem;
       background: linear-gradient(135deg, #00AA44, #00FF00);
       color: white;
       border: none;
-      border-radius: 25px;
+      border-radius: 20px;
       cursor: pointer;
       font-weight: 700;
       box-shadow: 0 5px 15px rgba(0,255,0,0.4);
@@ -1925,13 +1925,13 @@ function gameOver() {
     <p>Knowledge Points: ${game.knowledge}</p>
     <p>Questions Answered: ${game.questionsAnswered}</p>
     <button onclick="location.reload()" style="
-      margin-top: 20px;
-      padding: 12px 35px;
-      font-size: 1.2rem;
+      margin-top: 16px;
+      padding: 10px 28px;
+      font-size: 1rem;
       background: linear-gradient(135deg, #0066CC, #00FFFF);
       color: white;
       border: none;
-      border-radius: 25px;
+      border-radius: 20px;
       cursor: pointer;
       font-weight: 700;
     ">Try Again</button>
@@ -1977,30 +1977,30 @@ function render() {
     text.draw();
   }
   
-  // Warning indicators for bad items
+  // Warning indicators for bad items (scaled)
   ctx.strokeStyle = '#FF0000';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1.6;
   for (const drop of drops) {
-    if (drop.item.type === 'bad' && drop.y < 100) {
+    if (drop.item.type === 'bad' && drop.y < 80) {
       ctx.save();
       ctx.globalAlpha = 0.5;
       ctx.beginPath();
       ctx.moveTo(drop.x, 0);
-      ctx.lineTo(drop.x, 50);
+      ctx.lineTo(drop.x, 40);
       ctx.stroke();
       
       ctx.fillStyle = '#FF0000';
       ctx.beginPath();
-      ctx.moveTo(drop.x, 20);
-      ctx.lineTo(drop.x - 10, 35);
-      ctx.lineTo(drop.x + 10, 35);
+      ctx.moveTo(drop.x, 16);
+      ctx.lineTo(drop.x - 8, 28);
+      ctx.lineTo(drop.x + 8, 28);
       ctx.closePath();
       ctx.fill();
       
       ctx.fillStyle = 'white';
-      ctx.font = 'bold 18px Calibri';
+      ctx.font = 'bold 14px Calibri';
       ctx.textAlign = 'center';
-      ctx.fillText('!', drop.x, 32);
+      ctx.fillText('!', drop.x, 25.6);
       ctx.restore();
     }
   }
