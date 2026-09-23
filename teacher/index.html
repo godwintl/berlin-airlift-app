@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Berlin Airlift: class results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+  :root {
+    --paper: #F3F1EC;
+    --panel: #FFFFFF;
+    --ink: #1F2430;
+    --muted: #6B7280;
+    --line: #DAD6CE;
+    --blue: #2B5C8A;
+    --blue-soft: #E3ECF5;
+    --red: #B8413A;
+    --red-soft: #F6E4E2;
+    --green: #2F7A55;
+    --green-soft: #E2F0E8;
+    --amber: #B7791F;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    background: var(--paper); color: var(--ink); line-height: 1.45;
+  }
+  a { color: var(--blue); }
+  button { font: inherit; cursor: pointer; }
+  input, select { font: inherit; }
+
+  /* Sign in */
+  #loginView { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+  .login-box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 32px; width: 100%; max-width: 380px; }
+  .login-box h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+  .login-box p.sub { color: var(--muted); margin-bottom: 20px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-weight: 600; margin-bottom: 4px; }
+  .field input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+  .field input:focus { outline: 2px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  .btn { padding: 10px 16px; border-radius: 6px; border: 1px solid var(--blue); background: var(--blue); color: #fff; font-weight: 600; }
+  .btn:hover { background: #244d74; }
+  .btn.secondary { background: #fff; color: var(--ink); border-color: var(--line); }
+  .btn.secondary:hover { background: #f7f6f3; }
+  .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .error { color: var(--red); margin-top: 10px; min-height: 1.4em; }
+
+  /* App */
+  #appView { display: none; }
+  header {
+    background: var(--panel); border-bottom: 1px solid var(--line);
+    padding: 14px 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+  }
+  header h1 { font-size: 1.15rem; font-weight: 700; margin-right: auto; }
+  header select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+  header .who { color: var(--muted); font-size: 0.9rem; }
+  main { max-width: 1120px; margin: 0 auto; padding: 24px; }
+
+  .glance {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 28px;
+  }
+  .glance .summary { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+  .glance .summary h2 { font-size: 1.05rem; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+  .glance .summary p.big { font-size: 1.35rem; line-height: 1.4; }
+  .glance .summary p.big b { font-weight: 700; color: var(--blue); }
+  .glance .summary .figures { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .figure .n { font-size: 1.5rem; font-weight: 700; }
+  .figure .l { color: var(--muted); font-size: 0.85rem; }
+  .survival { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+  .survival h2 { font-size: 1.05rem; font-weight: 600; color: var(--muted); margin-bottom: 10px; }
+  .month-row { display: grid; grid-template-columns: 62px 1fr 28px; gap: 8px; align-items: center; font-size: 0.85rem; margin-bottom: 4px; }
+  .month-row .track { height: 10px; background: var(--paper); border-radius: 5px; overflow: hidden; }
+  .month-row .fill { height: 100%; background: var(--blue); }
+  .month-row.won .fill { background: var(--green); }
+  .month-row .cnt { text-align: right; color: var(--muted); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+  .block { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+  .block h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+  .block p.lead { color: var(--muted); margin-bottom: 14px; font-size: 0.92rem; }
+  .block.miscon { border-left: 5px solid var(--red); }
+  .block.strong { border-left: 5px solid var(--green); }
+  .empty { color: var(--muted); font-style: italic; padding: 8px 0; }
+
+  .q { padding: 12px 0; border-top: 1px solid var(--line); }
+  .q:first-of-type { border-top: 0; }
+  .q .stem { font-weight: 600; margin-bottom: 6px; }
+  .q .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
+  .q .chosen { display: grid; grid-template-columns: 1fr 120px 40px; gap: 10px; align-items: center; font-size: 0.9rem; margin: 3px 0; }
+  .q .chosen .track { height: 8px; background: var(--paper); border-radius: 4px; overflow: hidden; }
+  .q .chosen .fill { height: 100%; }
+  .q .chosen.wrong .fill { background: var(--red); }
+  .q .chosen.right .fill { background: var(--green); }
+  .q .chosen .pct { text-align: right; color: var(--muted); }
+  .q .chosen .opt.right::before { content: "✓ "; color: var(--green); }
+  .tag { display: inline-block; font-size: 0.78rem; padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+  .tag.red { background: var(--red-soft); color: var(--red); }
+  .tag.green { background: var(--green-soft); color: var(--green); }
+  .tag.amber { background: #F8EBD3; color: var(--amber); }
+
+  .behaviour { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .behaviour .n { font-size: 1.3rem; font-weight: 700; }
+  .behaviour .l { color: var(--muted); font-size: 0.85rem; }
+
+  .students { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; margin-bottom: 28px; }
+  .students .top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .students h2 { font-size: 1.1rem; font-weight: 700; margin-right: auto; }
+  .students input[type=search] { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; min-width: 200px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; cursor: pointer; user-select: none; white-space: nowrap; }
+  th.sorted::after { content: " ↓"; }
+  th.sorted.asc::after { content: " ↑"; }
+  td.num, th.num { text-align: right; }
+  tbody tr { cursor: pointer; }
+  tbody tr:hover { background: #FAF9F6; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 0.8rem; }
+  .pill.won { background: var(--green-soft); color: var(--green); }
+  .pill.lost { background: var(--red-soft); color: var(--red); }
+  .pill.open { background: #EEE; color: var(--muted); }
+  .acc-low { color: var(--red); font-weight: 600; }
+  .acc-high { color: var(--green); font-weight: 600; }
+
+  details.allq summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+  details.allq table { margin-top: 8px; }
+
+  /* Student sheet */
+  #sheet { position: fixed; top: 0; right: 0; height: 100vh; width: min(520px, 100vw); background: var(--panel); border-left: 1px solid var(--line); box-shadow: -8px 0 30px rgba(0,0,0,0.12); transform: translateX(100%); transition: transform 0.25s ease; overflow-y: auto; padding: 24px; z-index: 50; }
+  #sheet.open { transform: translateX(0); }
+  #sheet .close { float: right; }
+  #sheet h2 { font-size: 1.25rem; margin-bottom: 2px; }
+  #sheet .sub { color: var(--muted); margin-bottom: 16px; }
+  .attempt { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; }
+  .attempt .head { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; font-weight: 600; }
+  .attempt .stats { color: var(--muted); font-size: 0.88rem; margin-bottom: 8px; }
+  .attempt .wrong { font-size: 0.9rem; padding: 6px 0; border-top: 1px dashed var(--line); }
+  .attempt .wrong .chose { color: var(--red); }
+  .attempt .wrong .ans { color: var(--green); }
+  #overlay { position: fixed; inset: 0; background: rgba(31,36,48,0.25); display: none; z-index: 40; }
+  #overlay.open { display: block; }
+
+  .note { color: var(--muted); font-size: 0.85rem; margin-top: 24px; }
+  @media (prefers-reduced-motion: reduce) { #sheet { transition: none; } }
+  @media (max-width: 860px) {
+    .glance, .two-col { grid-template-columns: 1fr; }
+    main { padding: 16px; }
+    th:nth-child(6), td:nth-child(6) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loginView">
+  <div class="login-box">
+    <h1>Berlin Airlift: class results</h1>
+    <p class="sub">Enter your teacher code</p>
+    <div class="field"><label for="code">Teacher code</label><input id="code" type="text" autocomplete="off" placeholder="ZSS-XX-XXXXXX" style="text-transform:uppercase"></div>
+    <button class="btn" id="loginBtn">Open dashboard</button>
+    <p class="error" id="loginError"></p>
+  </div>
+</div>
+
+<div id="appView">
+  <header>
+    <h1>Berlin Airlift: class results</h1>
+    <select id="classFilter"><option value="">All classes</option></select>
+    <select id="periodFilter">
+      <option value="all">All time</option>
+      <option value="1">Today</option>
+      <option value="7">Last 7 days</option>
+      <option value="30">Last 30 days</option>
+    </select>
+    <button class="btn secondary" id="refreshBtn">Refresh</button>
+    <button class="btn secondary" id="exportBtn">Export CSV</button>
+    <button class="btn secondary" id="clearBtn">Clear class data</button>
+    <span class="who" id="who"></span>
+    <button class="btn secondary" id="logoutBtn">Sign out</button>
+  </header>
+
+  <main>
+    <section class="glance">
+      <div class="summary">
+        <h2>At a glance</h2>
+        <p class="big" id="glanceText">Loading…</p>
+        <div class="figures" id="figures"></div>
+      </div>
+      <div class="survival">
+        <h2>How far students got</h2>
+        <div id="survival"></div>
+      </div>
+    </section>
+
+    <section class="two-col">
+      <div class="block miscon">
+        <h2>Common misconceptions</h2>
+        <p class="lead">Questions the class got wrong most often, with the wrong answer they chose. Needs at least 3 attempts to show.</p>
+        <div id="misconceptions"></div>
+      </div>
+      <div class="block strong">
+        <h2>What went well</h2>
+        <p class="lead">Questions with high accuracy, and how well students handled the supply drops.</p>
+        <div id="strengths"></div>
+        <div class="behaviour" id="behaviour"></div>
+      </div>
+    </section>
+
+    <section class="students">
+      <div class="top">
+        <h2>Students</h2>
+        <input type="search" id="search" placeholder="Find a student">
+      </div>
+      <table id="studentTable">
+        <thead>
+          <tr>
+            <th data-k="name" class="sorted asc">Name</th>
+            <th data-k="cls">Class</th>
+            <th data-k="attempts" class="num">Attempts</th>
+            <th data-k="bestMonth" class="num">Furthest month</th>
+            <th data-k="bestScore" class="num">Best score</th>
+            <th data-k="answered" class="num">Questions</th>
+            <th data-k="acc" class="num">Quiz accuracy</th>
+            <th data-k="last">Last played</th>
+          </tr>
+        </thead>
+        <tbody id="studentRows"></tbody>
+      </table>
+      <p class="empty" id="studentsEmpty" style="display:none">No results yet for this filter.</p>
+    </section>
+
+    <section class="block">
+      <details class="allq">
+        <summary>Every question, with accuracy</summary>
+        <table id="allQuestions">
+          <thead><tr><th>Question</th><th>Topic</th><th class="num">Attempts</th><th class="num">Accuracy</th><th>Most common wrong answer</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </details>
+    </section>
+
+    <p class="note">Sessions with no outcome are students who closed the tab before the game ended. Quiz accuracy counts every answer across every attempt, so a student who replayed and saw a question twice is counted twice.</p>
+  </main>
+</div>
+
+<div id="overlay"></div>
+<aside id="sheet" aria-hidden="true">
+  <button class="btn secondary close" id="sheetClose">Close</button>
+  <h2 id="sheetName"></h2>
+  <p class="sub" id="sheetSub"></p>
+  <div id="sheetBody"></div>
+</aside>
+
+<script>
+// ===== CONFIG: same values as in the game file =====
+const SUPABASE_URL = 'https://lewcjusfdrtlykqaacmu.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_uOiSbUKDTVIC9GFJ3hFuNA_ThWRA7EI';
+
+const MONTHS = ["Jun 48","Jul 48","Aug 48","Sep 48","Oct 48","Nov 48","Dec 48","Jan 49","Feb 49","Mar 49","Apr 49","May 49"];
+const TOPIC_LABEL = { food:'Food', coal:'Coal', medicine:'Medicine', milk:'Dried milk', candy:'Candy Bomber', flour:'Flour', propaganda:'Propaganda', general:'General' };
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const $ = id => document.getElementById(id);
+
+let sessions = [], answers = [];
+let sortKey = 'name', sortAsc = true;
+let studentSummary = [];
+
+// ---------- Teacher code ----------
+let teacherCode = sessionStorage.getItem('teacherCode') || '';
+let teacher = null;
+
+$('loginBtn').onclick = () => tryLogin($('code').value);
+$('code').addEventListener('keydown', e => { if (e.key === 'Enter') $('loginBtn').click(); });
+$('logoutBtn').onclick = () => { sessionStorage.removeItem('teacherCode'); teacherCode = ''; teacher = null; showLogin(); };
+
+async function tryLogin(code) {
+  $('loginError').textContent = '';
+  code = (code || '').trim().toUpperCase();
+  if (!code) return;
+  const { data, error } = await sb.rpc('teacher_login', { p_code: code });
+  if (error) { $('loginError').textContent = 'Could not check the code: ' + error.message; return; }
+  if (!data || !data.length) { $('loginError').textContent = 'That code is not recognised.'; return; }
+  teacher = data[0]; teacherCode = code;
+  sessionStorage.setItem('teacherCode', code);
+  $('loginView').style.display = 'none';
+  $('appView').style.display = 'block';
+  $('who').textContent = teacher.name;
+  loadData();
+}
+function showLogin() { $('appView').style.display = 'none'; $('loginView').style.display = 'grid'; }
+if (teacherCode) tryLogin(teacherCode);
+
+// ---------- Data ----------
+async function loadData() {
+  $('glanceText').textContent = 'Loading…';
+  const [s, a] = await Promise.all([
+    sb.rpc('teacher_sessions', { p_code: teacherCode }),
+    sb.rpc('teacher_answers', { p_code: teacherCode })
+  ]);
+  if (s.error || a.error) { $('glanceText').textContent = 'Could not load results: ' + (s.error || a.error).message; return; }
+  sessions = s.data; answers = a.data;
+  populateClasses();
+  render();
+}
+
+function populateClasses() {
+  const sel = $('classFilter');
+  const current = sel.value;
+  const classes = [...new Set(sessions.map(x => x.class_code))].sort();
+  sel.innerHTML = '<option value="">All classes</option>' + classes.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  if (classes.includes(current)) sel.value = current;
+}
+
+function filtered() {
+  const cls = $('classFilter').value;
+  const days = $('periodFilter').value;
+  const cutoff = days === 'all' ? 0 : Date.now() - Number(days) * 86400000;
+  const fs = sessions.filter(x => (!cls || x.class_code === cls) && new Date(x.started_at).getTime() >= cutoff);
+  const ids = new Set(fs.map(x => x.id));
+  return { fs, fa: answers.filter(x => ids.has(x.session_id)) };
+}
+
+$('classFilter').onchange = render;
+$('periodFilter').onchange = render;
+$('refreshBtn').onclick = loadData;
+$('search').oninput = renderStudents;
+
+// ---------- Render ----------
+function render() {
+  const { fs, fa } = filtered();
+  renderGlance(fs, fa);
+  renderSurvival(fs);
+  const qstats = questionStats(fa);
+  renderMisconceptions(qstats);
+  renderStrengths(qstats, fs);
+  renderAllQuestions(qstats);
+  studentSummary = buildStudents(fs, fa);
+  renderStudents();
+}
+
+function renderGlance(fs, fa) {
+  const students = new Set(fs.map(x => x.student_name + '|' + x.class_code)).size;
+  const finished = fs.filter(x => x.outcome);
+  const won = fs.filter(x => x.outcome === 'won').length;
+  const correct = fa.filter(x => x.is_correct).length;
+  const acc = fa.length ? Math.round(100 * correct / fa.length) : null;
+  const avgMonth = finished.length ? (finished.reduce((s, x) => s + x.months_survived, 0) / finished.length) : null;
+
+  if (!fs.length) { $('glanceText').textContent = 'No one has played yet for this filter.'; $('figures').innerHTML = ''; return; }
+  $('glanceText').innerHTML =
+    `<b>${students}</b> student${students === 1 ? '' : 's'} played <b>${fs.length}</b> game${fs.length === 1 ? '' : 's'}. ` +
+    (finished.length ? `<b>${Math.round(100 * won / finished.length)}%</b> of finished games survived the full blockade. ` : '') +
+    (acc !== null ? `Quiz accuracy across the class is <b>${acc}%</b>.` : 'No quiz questions answered yet.');
+  $('figures').innerHTML = [
+    fig(fs.length ? Math.round(fs.reduce((s, x) => s + x.final_score, 0) / fs.length) : 0, 'Average score'),
+    fig(avgMonth !== null ? avgMonth.toFixed(1) : '–', 'Average months survived'),
+    fig(fa.length, 'Questions answered'),
+    fig(fs.length - finished.length, 'Did not finish')
+  ].join('');
+}
+const fig = (n, l) => `<div class="figure"><div class="n">${n}</div><div class="l">${l}</div></div>`;
+
+function renderSurvival(fs) {
+  const finished = fs.filter(x => x.outcome);
+  if (!finished.length) { $('survival').innerHTML = '<p class="empty">No finished games yet.</p>'; return; }
+  const counts = new Array(12).fill(0);
+  finished.forEach(x => { counts[x.outcome === 'won' ? 11 : Math.min(x.months_survived, 10)]++; });
+  const max = Math.max(...counts, 1);
+  let html = '';
+  for (let m = 0; m < 12; m++) {
+    const label = m === 11 ? 'Won' : MONTHS[m];
+    html += `<div class="month-row ${m === 11 ? 'won' : ''}"><span>${label}</span><div class="track"><div class="fill" style="width:${100 * counts[m] / max}%"></div></div><span class="cnt">${counts[m]}</span></div>`;
+  }
+  $('survival').innerHTML = html;
+}
+
+function questionStats(fa) {
+  const map = new Map();
+  for (const a of fa) {
+    const key = a.category + '#' + a.question_index;
+    if (!map.has(key)) map.set(key, { key, category: a.category, text: a.question_text, correctText: a.correct_text, n: 0, correct: 0, chosen: {} });
+    const q = map.get(key);
+    q.n++;
+    if (a.is_correct) q.correct++;
+    q.chosen[a.selected_text] = (q.chosen[a.selected_text] || 0) + 1;
+  }
+  const out = [...map.values()];
+  out.forEach(q => {
+    q.acc = q.n ? q.correct / q.n : 0;
+    const wrong = Object.entries(q.chosen).filter(([t]) => t !== q.correctText).sort((a, b) => b[1] - a[1]);
+    q.topWrong = wrong[0] || null;
+    q.topWrongShare = q.topWrong ? q.topWrong[1] / q.n : 0;
+  });
+  return out;
+}
+
+function questionCard(q) {
+  const opts = Object.entries(q.chosen).sort((a, b) => b[1] - a[1]);
+  const shareTag = q.topWrong && q.topWrongShare >= 0.4
+    ? `<span class="tag red">${Math.round(q.topWrongShare * 100)}% picked the same wrong answer</span>` : '';
+  return `<div class="q">
+    <div class="stem">${esc(q.text)}</div>
+    <div class="meta">${TOPIC_LABEL[q.category] || q.category} · ${q.n} attempt${q.n === 1 ? '' : 's'} · ${Math.round(q.acc * 100)}% correct ${shareTag}</div>
+    ${opts.map(([t, c]) => `<div class="chosen ${t === q.correctText ? 'right' : 'wrong'}"><span class="opt ${t === q.correctText ? 'right' : ''}">${esc(t)}</span><div class="track"><div class="fill" style="width:${100 * c / q.n}%"></div></div><span class="pct">${Math.round(100 * c / q.n)}%</span></div>`).join('')}
+  </div>`;
+}
+
+function renderMisconceptions(qs) {
+  const list = qs.filter(q => q.n >= 3 && q.acc < 0.6).sort((a, b) => a.acc - b.acc);
+  $('misconceptions').innerHTML = list.length ? list.map(questionCard).join('') : '<p class="empty">Nothing below 60% accuracy yet. Either the class knows this well, or too few answers so far.</p>';
+}
+
+function renderStrengths(qs, fs) {
+  const list = qs.filter(q => q.n >= 3 && q.acc >= 0.8).sort((a, b) => b.acc - a.acc);
+  $('strengths').innerHTML = list.length
+    ? list.map(q => `<div class="q"><div class="stem">${esc(q.text)}</div><div class="meta">${TOPIC_LABEL[q.category] || q.category} · ${q.n} attempts · <span class="tag green">${Math.round(q.acc * 100)}% correct</span></div></div>`).join('')
+    : '<p class="empty">No question is at 80% or above yet (needs at least 3 attempts).</p>';
+
+  const g = fs.reduce((s, x) => s + x.items_caught_good, 0);
+  const m = fs.reduce((s, x) => s + x.items_missed_good, 0);
+  const bCaught = fs.reduce((s, x) => s + x.items_caught_bad, 0);
+  const bSpawn = fs.reduce((s, x) => s + x.items_spawned_bad, 0);
+  const catchRate = g + m ? Math.round(100 * g / (g + m)) : null;
+  const avoidRate = bSpawn ? Math.round(100 * (1 - bCaught / bSpawn)) : null;
+  $('behaviour').innerHTML =
+    `<div><div class="n">${catchRate === null ? '–' : catchRate + '%'}</div><div class="l">of good supplies caught (${g} caught, ${m} missed)</div></div>` +
+    `<div><div class="n">${avoidRate === null ? '–' : avoidRate + '%'}</div><div class="l">of bad items avoided (propaganda, rubble, empty crates)</div></div>`;
+}
+
+function renderAllQuestions(qs) {
+  const tb = $('allQuestions').querySelector('tbody');
+  const sorted = [...qs].sort((a, b) => a.acc - b.acc);
+  tb.innerHTML = sorted.length ? sorted.map(q => `<tr>
+    <td>${esc(q.text)}</td><td>${TOPIC_LABEL[q.category] || q.category}</td>
+    <td class="num">${q.n}</td>
+    <td class="num ${q.acc < 0.6 ? 'acc-low' : q.acc >= 0.8 ? 'acc-high' : ''}">${Math.round(q.acc * 100)}%</td>
+    <td>${q.topWrong ? esc(q.topWrong[0]) + ' (' + q.topWrong[1] + ')' : '–'}</td></tr>`).join('')
+    : '<tr><td colspan="5" class="empty">No answers yet.</td></tr>';
+}
+
+function buildStudents(fs, fa) {
+  const bySession = {};
+  for (const a of fa) (bySession[a.session_id] ||= []).push(a);
+  const map = new Map();
+  for (const s of fs) {
+    const key = s.student_name + '|' + s.class_code;
+    if (!map.has(key)) map.set(key, { key, name: s.student_name, cls: s.class_code, attempts: 0, bestMonth: 0, won: false, bestScore: 0, answered: 0, correct: 0, last: 0, sessions: [] });
+    const st = map.get(key);
+    st.attempts++;
+    st.sessions.push(Object.assign({ answers: bySession[s.id] || [] }, s));
+    st.bestMonth = Math.max(st.bestMonth, s.outcome === 'won' ? 11 : s.months_survived);
+    if (s.outcome === 'won') st.won = true;
+    st.bestScore = Math.max(st.bestScore, s.final_score);
+    st.answered += s.questions_answered;
+    st.correct += s.questions_correct;
+    st.last = Math.max(st.last, new Date(s.started_at).getTime());
+  }
+  const out = [...map.values()];
+  out.forEach(st => { st.acc = st.answered ? st.correct / st.answered : null; });
+  return out;
+}
+
+document.querySelectorAll('#studentTable th').forEach(th => {
+  th.onclick = () => {
+    const k = th.dataset.k;
+    if (sortKey === k) sortAsc = !sortAsc; else { sortKey = k; sortAsc = k === 'name' || k === 'cls'; }
+    document.querySelectorAll('#studentTable th').forEach(t => t.classList.remove('sorted', 'asc'));
+    th.classList.add('sorted'); if (sortAsc) th.classList.add('asc');
+    renderStudents();
+  };
+});
+
+function renderStudents() {
+  const term = $('search').value.trim().toLowerCase();
+  let rows = studentSummary.filter(s => !term || s.name.toLowerCase().includes(term));
+  rows.sort((a, b) => {
+    let x = a[sortKey], y = b[sortKey];
+    if (x === null) x = -1; if (y === null) y = -1;
+    const r = typeof x === 'string' ? x.localeCompare(y) : x - y;
+    return sortAsc ? r : -r;
+  });
+  $('studentsEmpty').style.display = rows.length ? 'none' : 'block';
+  $('studentRows').innerHTML = rows.map(s => `<tr data-key="${esc(s.key)}">
+    <td>${esc(s.name)}</td><td>${esc(s.cls)}</td>
+    <td class="num">${s.attempts}</td>
+    <td class="num">${s.won ? '<span class="pill won">Survived all 11</span>' : MONTHS[Math.min(s.bestMonth, 10)]}</td>
+    <td class="num">${s.bestScore}</td>
+    <td class="num">${s.answered}</td>
+    <td class="num ${s.acc === null ? '' : s.acc < 0.5 ? 'acc-low' : s.acc >= 0.8 ? 'acc-high' : ''}">${s.acc === null ? '–' : Math.round(s.acc * 100) + '%'}</td>
+    <td>${fmtDate(s.last)}</td></tr>`).join('');
+  document.querySelectorAll('#studentRows tr').forEach(tr => tr.onclick = () => openSheet(tr.dataset.key));
+}
+
+// ---------- Student sheet ----------
+function openSheet(key) {
+  const s = studentSummary.find(x => x.key === key);
+  if (!s) return;
+  $('sheetName').textContent = s.name;
+  $('sheetSub').textContent = `${s.cls} · ${s.attempts} attempt${s.attempts === 1 ? '' : 's'} · quiz accuracy ${s.acc === null ? 'n/a' : Math.round(s.acc * 100) + '%'}`;
+  const attempts = [...s.sessions].sort((a, b) => new Date(b.started_at) - new Date(a.started_at));
+  $('sheetBody').innerHTML = attempts.map(a => {
+    const wrong = a.answers.filter(x => !x.is_correct);
+    const pill = a.outcome === 'won' ? '<span class="pill won">Won</span>' : a.outcome === 'lost' ? `<span class="pill lost">Lost in ${MONTHS[Math.min(a.months_survived, 10)]}</span>` : '<span class="pill open">Did not finish</span>';
+    const lows = a.min_food === null ? '' : ` · lowest: hunger ${a.min_food}, warmth ${a.min_warm}, morale ${a.min_morale}`;
+    return `<div class="attempt">
+      <div class="head"><span>${fmtDate(a.started_at)}</span>${pill}</div>
+      <div class="stats">Score ${a.final_score} · ${a.questions_correct}/${a.questions_answered} quiz correct · caught ${a.items_caught_good}, missed ${a.items_missed_good}, hit ${a.items_caught_bad} bad${lows}</div>
+      ${wrong.length ? wrong.map(w => `<div class="wrong"><div>${esc(w.question_text)}</div><div class="chose">Chose: ${esc(w.selected_text)}</div><div class="ans">Answer: ${esc(w.correct_text)}</div></div>`).join('') : (a.questions_answered ? '<div class="wrong">All quiz answers correct.</div>' : '<div class="wrong">No quiz questions came up.</div>')}
+    </div>`;
+  }).join('');
+  $('sheet').classList.add('open'); $('sheet').setAttribute('aria-hidden', 'false');
+  $('overlay').classList.add('open');
+}
+function closeSheet() { $('sheet').classList.remove('open'); $('sheet').setAttribute('aria-hidden', 'true'); $('overlay').classList.remove('open'); }
+$('sheetClose').onclick = closeSheet;
+$('overlay').onclick = closeSheet;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+// ---------- Clear a class ----------
+$('clearBtn').onclick = async () => {
+  const cls = $('classFilter').value;
+  if (!cls) { alert('Pick a class in the dropdown first. "All classes" cannot be cleared in one go.'); return; }
+  const n = sessions.filter(x => x.class_code === cls).length;
+  if (!confirm(`Delete all ${n} game${n === 1 ? '' : 's'} for ${cls}? This cannot be undone.`)) return;
+  const { data, error } = await sb.rpc('teacher_clear_class', { p_code: teacherCode, p_class: cls });
+  if (error) { alert('Could not clear: ' + error.message); return; }
+  $('classFilter').value = '';
+  loadData();
+};
+
+// ---------- Export ----------
+$('exportBtn').onclick = () => {
+  const head = ['Name','Class','Attempts','Furthest month','Survived all','Best score','Questions answered','Questions correct','Quiz accuracy %','Last played'];
+  const lines = [head.join(',')].concat(studentSummary.map(s => [
+    s.name, s.cls, s.attempts, s.won ? 'Won' : MONTHS[Math.min(s.bestMonth, 10)], s.won ? 'Yes' : 'No', s.bestScore, s.answered, s.correct,
+    s.acc === null ? '' : Math.round(s.acc * 100), fmtDate(s.last)
+  ].map(csv).join(',')));
+  const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `berlin-airlift-${$('classFilter').value || 'all'}-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+};
+
+// ---------- Helpers ----------
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function csv(v) { const s = String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+function fmtDate(d) { const t = new Date(d); return t.toLocaleDateString('en-SG', { day: 'numeric', month: 'short' }) + ' ' + t.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' }); }
+</script>
+</body>
+</html>
