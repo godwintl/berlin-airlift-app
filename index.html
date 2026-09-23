@@ -386,11 +386,12 @@ const Analytics = {
   async start(name, classCode) {
     this.student = { name, classCode };
     this.sessionId = this.uuid();
-    return this.request('POST', 'game_sessions', {
+    this.ready = this.request('POST', 'game_sessions', {
       id: this.sessionId,
       student_name: name,
       class_code: classCode
     });
+    return this.ready;
   },
 
   snapshot(outcome = null) {
@@ -420,12 +421,13 @@ const Analytics = {
 
   checkpoint(outcome = null) {
     if (!this.sessionId) return Promise.resolve(false);
-    return this.request('PATCH', 'game_sessions?id=eq.' + this.sessionId, this.snapshot(outcome));
+    const body = { p_id: this.sessionId, p_data: this.snapshot(outcome) };
+    return (this.ready || Promise.resolve()).then(() => this.request('POST', 'rpc/update_session', body));
   },
 
   logAnswer(category, index, quiz, selected) {
     if (!this.sessionId) return Promise.resolve(false);
-    return this.request('POST', 'quiz_answers', {
+    const row = {
       session_id: this.sessionId,
       category,
       question_index: index,
@@ -436,7 +438,8 @@ const Analytics = {
       correct_text: quiz.options[quiz.correct],
       is_correct: selected === quiz.correct,
       month: game.month
-    });
+    };
+    return (this.ready || Promise.resolve()).then(() => this.request('POST', 'quiz_answers', row));
   }
 };
 
